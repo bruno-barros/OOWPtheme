@@ -24,13 +24,16 @@ class Wcollection extends WP_Query {
 
     public function __construct($args = array())
     {
+        global $paged;
+//        d($paged);
         // Force these args
         $args = array_merge(array(
             'post_type' => 'book',
             'posts_per_page' => -1, // Turn off paging
             'no_found_rows' => true, // Optimize query for no paging
             'update_post_term_cache' => false,
-            'update_post_meta_cache' => false
+            'update_post_meta_cache' => false,
+            'paged' => $paged
         ), $args);
 
 //        add_filter('posts_fields', array($this, 'posts_fields'));

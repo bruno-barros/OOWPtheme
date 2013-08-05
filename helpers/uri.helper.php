@@ -61,3 +61,140 @@ if (!function_exists('is_subpage'))
     }
 
 }
+
+if (!function_exists('img_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de imagens de template
+     * @param type $img
+     * @return string
+     */
+    function img_folder($img = '', $basepath = false)
+    {
+        if ($basepath)
+        {
+            $filename = TEMPLATEPATH . '/assets/img/' . trim($img, '/');
+        }
+        else
+        {
+            $filename = get_template_directory_uri() . '/assets/img/' . trim($img, '/');
+        }
+        return $filename;
+    }
+
+}
+
+if (!function_exists('js_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de scripts de template
+     * @param type $img
+     * @return string
+     */
+    function js_folder($script = '', $basepath = false)
+    {
+        if ($basepath)
+        {
+            $filename = TEMPLATEPATH . '/assets/js/' . trim($script, '/');
+        }
+        else
+        {
+            $filename = get_template_directory_uri() . '/assets/js/' . trim($script, '/');
+        }
+        return $filename;
+    }
+
+}
+
+if (!function_exists('css_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de scripts de template
+     * @param type $img
+     * @return string
+     */
+    function css_folder($script = '', $basepath = false)
+    {
+        if ($basepath)
+        {
+            $filename = TEMPLATEPATH . '/assets/css/' . trim($script, '/');
+        }
+        else
+        {
+            $filename = get_template_directory_uri() . '/assets/css/' . trim($script, '/');
+        }
+        return $filename;
+    }
+
+}
+
+if (!function_exists('config_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de configuração
+     * @param type $img
+     * @return string
+     */
+    function config_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/config/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}
+
+if (!function_exists('templates_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de templates
+     * @param type $img
+     * @return string
+     */
+    function templates_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/templates/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}
+
+if (!function_exists('libraries_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de templates
+     * @param type $img
+     * @return string
+     */
+    function libraries_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/libraries/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}
+
+if (!function_exists('widgets_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de templates
+     * @param type $img
+     * @return string
+     */
+    function widgets_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/widgets/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}

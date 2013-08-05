@@ -34,16 +34,6 @@ class Assets {
     public function __construct()
     {
         self::$instance = $this;
-        
-        
-        // scripts padrão
-        $this->add('bootstrap', 'bootstrap.css');
-        $this->add('bootstrap-responsive', 'bootstrap-responsive.css', 'bootstrap');
-        $this->add('base-layout', 'base-layout.css', 'bootstrap');
-        $this->add('module-template', 'module-template.css', 'base-layout');
-
-        $this->add('jquery', 'jquery-1.8.3.min.js');
-        $this->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
 
         $this->addBasedOnUri();
     }
@@ -70,7 +60,7 @@ class Assets {
         {
             $this->styles[] = array(
                 'name' => $name,
-                'script' => '/css/' . trim($script, '/'),
+                'script' => $script,
                 'dependency' => $dependency,
                 'version' => $version,
                 'extra' => $extra
@@ -80,7 +70,7 @@ class Assets {
         {
             $this->scripts[] = array(
                 'name' => $name,
-                'script' => '/js/' . trim($script, '/'),
+                'script' => $script,
                 'dependency' => $dependency,
                 'version' => $version,
                 'extra' => $extra
@@ -102,7 +92,7 @@ class Assets {
                 {
                     continue;
                 }
-                wp_enqueue_style($css['name'], get_template_directory_uri() . $css['script'], $css['dependency'], $css['version']);
+                wp_enqueue_style($css['name'], css_folder($css['script']), $css['dependency'], $css['version']);
             }
         }
         if (!empty($this->scripts))
@@ -113,7 +103,7 @@ class Assets {
                 {
                     continue;
                 }
-                wp_enqueue_script($js['name'], get_template_directory_uri() . $js['script'], $js['dependency'], $js['version']);
+                wp_enqueue_script($js['name'], js_folder($js['script']) , $js['dependency'], $js['version']);
             }
         }
     }
@@ -125,7 +115,17 @@ class Assets {
      */
     public function check($script = '')
     {
-        $filename = TEMPLATEPATH . '/' . trim($script, '/');
+        $ext = substr($script, -3);
+        
+        if (strtolower($ext) === 'css')
+        {
+            $filename = css_folder($script, true);
+        }
+        else
+        {
+             $filename = js_folder($script, true);
+        }
+        
         if (file_exists($filename))
         {
             return true;

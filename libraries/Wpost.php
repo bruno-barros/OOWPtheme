@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wrapper para posts individuais
  * 
@@ -63,12 +64,12 @@ class Wpost {
         $this->setAttrbs();
         $this->setUri();
 
-//        dd($this->post);
+//        d($this->post->post_parent);
     }
-    
+
     public function __call($name, $arguments = array())
     {
-        if(isset($this->$name))
+        if (isset($this->$name))
         {
             return $this->$name;
         }
@@ -98,23 +99,58 @@ class Wpost {
     {
         return $this->post->post_title;
     }
-    
+
     public function setPostThumbnail()
     {
         
     }
-    
+
     public function thumb($size = 'thumbnail', $attr = null)
     {
-        $img = wp_get_attachment_image_src( get_post_thumbnail_id($this->id), $size);
+        $img = wp_get_attachment_image_src(get_post_thumbnail_id($this->id), $size);
 
-        return  $img[0];
+        return $img[0];
 //        return  get_the_post_thumbnail( $this->id, $size, $attr );
     }
-    
+
     public function setUri()
     {
         $this->uri = get_permalink($this->id);
+    }
+
+    /**
+     * Retorna posts relacionados... na mesma categoria
+     * 
+     * @return \WP_Query
+     */
+    public function getRelated()
+    {
+        $args = '';
+
+        $args = wp_parse_args($args, array(
+            'showposts' => -1,
+            'post__not_in' => array($this->id),
+            'ignore_sticky_posts' => 0,
+            'category__in' => wp_get_post_categories($this->id)
+        ));
+
+        $query = new WP_Query($args);
+
+        return $query;
+    }
+    
+    /**
+     * Retorna a páginas mãe como um objeto Wpost
+     * @return \self
+     */
+    public function parent()
+    {
+        if((int)$this->parentId === 0)
+        {
+            return false;
+        }
+        $parent = get_post($this->parentId);
+        return new self($parent);
     }
 
 }
