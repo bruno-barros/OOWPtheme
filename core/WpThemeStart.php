@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Boootrap do tema
  * * Deve ser inserido no início do functions.php
@@ -9,16 +10,16 @@
  * @copyright   Copyright (c) 2013 Bruno Barros
  * 
  */
-
 /**
  * =========================================================================
  * Auto-Loader
- * --------------------------------------------------------------------------
+ * -------------------------------------------------------------------------
  * Faz inclusão automática de classes
- * --------------------------------------------------------------------------
+ * -------------------------------------------------------------------------
  */
 $autoLoadDirectories = array(
     'libraries',
+    'models',
     'plugins',
     'core',
 );
@@ -43,7 +44,6 @@ function __autoload($class_name)
     }
 }
 
-
 /**
  * =========================================================================
  * Auto-Loader Helpers
@@ -52,7 +52,7 @@ function __autoload($class_name)
 // Load files from the start directory.
 foreach (new DirectoryIterator(TEMPLATEPATH . "/helpers") as $file)
 {
-    if ($file->isDot() or $file->isDir() or !endsWith($file->getFilename(), ".helper.php"))
+    if ($file->isDot() or $file->isDir() or !ends_with($file->getFilename(), ".helper.php"))
         continue;
 
     require $file->getPathname();
@@ -65,7 +65,7 @@ foreach (new DirectoryIterator(TEMPLATEPATH . "/helpers") as $file)
  * @param string|array $needles
  * @return bool
  */
-function endsWith($haystack, $needles)
+function ends_with($haystack, $needles)
 {
     foreach ((array) $needles as $needle)
     {

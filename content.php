@@ -60,7 +60,7 @@
 
 		<footer class="entry-meta">
 
-			<?php wptheme_entry_meta(); ?>
+			<?php oowptheme_entry_meta(); ?>
 
 			<?php edit_post_link( 'Editar', '<span class="edit-link">', '</span>' ); ?>
 

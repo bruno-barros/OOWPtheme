@@ -145,6 +145,7 @@ if (!function_exists('length'))
 
     /**
      * Return the length of the given string.
+     * ATENÇÃO: caracteres acentuados pesam 2 bytes
      *
      * @param  string  $value
      * @return int

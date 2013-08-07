@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wrapper para looping de posts
  * 
@@ -13,6 +14,7 @@
  * 
  * endwhile;
  * </code>
+ * @link http://codex.wordpress.org/Class_Reference/WP_Query
  * @see Wpost
  * @package OOWPtheme
  * @subpackage libraries
@@ -28,14 +30,51 @@ class Wcollection extends WP_Query {
 //        d($paged);
         // Force these args
         $args = array_merge(array(
-            'post_type' => 'book',
-            'posts_per_page' => -1, // Turn off paging
+            //-- autor --//
+            //ID do autor
+            'author' => null,
+            // nicename do autor
+            'author_name' => null,
+            //-- categoria --//
+            // ID da categoria
+            'cat' => null,
+            // slug da categoia
+            'category_name' => null,
+            // posts em multiplas categorias (array)
+            'category__and' => null,
+            // posts que pertencem a pelo menos uma das categorias (array)
+            'category__in' => null,
+            // posts que não pertençam a nenhumas destas categorias (array)
+            'category__not_in' => null,
+            //-- tags --//
+            // slug da tag
+            'tag' => null,
+            // ID da tag
+            'tag_id' => null,
+            // posts que contenham todas as tags (array of ids)
+            'tag__and' => null,
+            // posts que contenham pelo meno uma das tags (array of ids)
+            'tag__in' => null,
+            // posts que não tenham nenhuma destas tags (array of ids)
+            'tag__not_in' => null,
+            // posts que contenham todas as tags (array of slugs)
+            'tag_slug__and' => null,
+            // posts que contenham pelo meno uma das tags (array of slugs)
+            'tag_slug__in' => null,
+            //-- pesquisa livre --//
+            // string para busta fulltext
+            's' => null,
+            // tipo de post
+            'post_type' => 'post',
+            // posts por página. -1 sem limite
+            'posts_per_page' => -1,
             'no_found_rows' => true, // Optimize query for no paging
             'update_post_term_cache' => false,
             'update_post_meta_cache' => false,
             'paged' => $paged
-        ), $args);
-
+                ), $args);
+        
+        
 //        add_filter('posts_fields', array($this, 'posts_fields'));
 //        add_filter('posts_join', array($this, 'posts_join'));
 //        add_filter('posts_where', array($this, 'posts_where'));
@@ -50,13 +89,26 @@ class Wcollection extends WP_Query {
 //        remove_filter('posts_orderby', array($this, 'posts_orderby'));
     }
 
-    function posts_fields($sql)
+    /**
+     * Retorna o total de posts
+     * @return int
+     */
+    public function count()
+    {
+        if (!isset($this->posts))
+        {
+            return null;
+        }
+        return count($this->posts);
+    }
+
+    public function posts_fields($sql)
     {
         global $wpdb;
         return $sql . ", $wpdb->terms.name AS 'book_category'";
     }
 
-    function posts_join($sql)
+    public function posts_join($sql)
     {
         global $wpdb;
         return $sql . "
@@ -66,16 +118,17 @@ class Wcollection extends WP_Query {
 		";
     }
 
-    function posts_where($sql)
+    public function posts_where($sql)
     {
         global $wpdb;
         return $sql . " AND $wpdb->term_taxonomy.taxonomy = 'book_category'";
     }
 
-    function posts_orderby($sql)
+    public function posts_orderby($sql)
     {
         global $wpdb;
         return "$wpdb->terms.name ASC, $wpdb->posts.post_title ASC";
     }
+
 
 }

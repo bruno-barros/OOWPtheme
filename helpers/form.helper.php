@@ -11,7 +11,11 @@
  */
 if (!function_exists('was_form_sent'))
 {
-
+    /**
+     * Retorna TRUE caso exista as condições de um form enviado
+     * $_GET['a'] = 'sent'
+     * @return boolean
+     */
     function was_form_sent()
     {
         if (isset($_GET['a']) && $_GET['a'] == 'sent')

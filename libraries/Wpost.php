@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Wrapper para posts individuais
  * 
@@ -8,10 +7,10 @@
  * 
  * $p = new Wpost($post);
  * 
- * $p->thumb();
+ * $p->thumb;
  * $p->title;
  * $p->slug;
- * $p->uri; // permalink
+ * $p->permalink;
  * ...
  * 
  * 
@@ -25,101 +24,111 @@
  */
 class Wpost {
 
-    private $post;
-    public $id;
-    public $authorId;
-    public $date;
-    public $dateGmt;
-    public $updatedAt;
-    public $content;
-    public $title;
-    public $excerpt;
-    public $status;
-    public $commentStatus;
-    public $commentCount;
-    public $slug;
-    public $parentId;
-    public $guid;
-    public $postType;
-    public $mimeType;
-    public $thumb;
-    public $uri;
+    protected $object;
 
-//  ["guid"]=>
-//  string(78) "http://localhost/aldeiamontessori.com.br/trunk/?post_type=chamadas&p=1643"
-//  ["menu_order"]=>
-//  int(0)
-//  ["post_type"]=>
-//  string(8) "chamadas"
-//  ["post_mime_type"]=>
-//  string(0) ""
-//  ["comment_count"]=>
-//  string(1) "0"
-//  ["filter"]=>
-//  string(3) "raw"
-
-    public function __construct($thePost)
+    public function __construct($thePost = null)
     {
-        $this->post = $thePost;
-        $this->setAttrbs();
-        $this->setUri();
-
-//        d($this->post->post_parent);
-    }
-
-    public function __call($name, $arguments = array())
-    {
-        if (isset($this->$name))
+        global $post;
+        
+        if (is_object($thePost))
         {
-            return $this->$name;
+            $this->object = $thePost;
+        }
+        else if (is_numeric($thePost))
+        {
+            $this->object = new WP_Query(array('p' => $thePost));
+        }
+        else if (is_string($thePost))
+        {
+            $this->object = new WP_Query(array('name' => $thePost));
+        }
+        else
+        {
+            $this->object = $post;
+        }
+    }
+    
+    /**
+     * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
+     *
+     * @param  string $var
+     * @return mixed
+     */
+    public function __get($var)
+    {
+        $method = 'present' . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
+
+        if (method_exists($this, $method))
+        {
+            return $this->$method();
+        }
+
+        if (get_class($this->object) == 'WP_Post')
+        {
+            return $this->object->$var;
+        }
+        else // WP_Query
+        {
+            return $this->object->post->$var;
         }
     }
 
-    public function setAttrbs()
+    /**
+     * Pass any uknown methods through to the inject object.
+     *
+     * @param  string $method
+     * @param  array  $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
     {
-        $this->id = $this->post->ID;
-        $this->authorId = $this->post->post_author;
-        $this->date = $this->post->post_date;
-        $this->dateGmt = $this->post->post_date_gmt;
-        $this->updatedAt = $this->post->post_modified;
-        $this->content = $this->post->post_content;
-        $this->title = $this->post->post_title;
-        $this->excerpt = $this->post->post_excerpt;
-        $this->status = $this->post->post_status;
-        $this->commentStatus = $this->post->comment_status;
-        $this->commentCount = $this->post->comment_count;
-        $this->slug = $this->post->post_name;
-        $this->parentId = $this->post->post_parent;
-        $this->guid = $this->post->guid;
-        $this->postType = $this->post->post_type;
-        $this->mimeType = $this->post->post_mime_type;
+        return call_user_func_array(array($this->object, $method), $arguments);
     }
 
-    public function title()
+    /**
+     * Retorna o título
+     * @return string
+     */
+    public function presentTitle()
     {
-        return $this->post->post_title;
+        return $this->post_title;
+    }
+    
+    /**
+     * Retorna o nome para url
+     * @return string
+     */
+    public function presentSlug()
+    {
+        return $this->post_name;
     }
 
-    public function setPostThumbnail()
+    /**
+     * URL completa do post
+     * @return string
+     */
+    public function presentPermalink()
     {
-        
+        return get_permalink($this->ID);
     }
 
-    public function thumb($size = 'thumbnail', $attr = null)
+
+    /**
+     * Imagem destacada
+     * @param type $size
+     * @param type $attr
+     * @return type
+     */
+    public function presentThumb($size = 'thumbnail', $attr = null)
     {
-        $img = wp_get_attachment_image_src(get_post_thumbnail_id($this->id), $size);
+        $img = wp_get_attachment_image_src(get_post_thumbnail_id($this->ID), $size);
 
         return $img[0];
-//        return  get_the_post_thumbnail( $this->id, $size, $attr );
-    }
-
-    public function setUri()
-    {
-        $this->uri = get_permalink($this->id);
     }
 
     /**
      * Retorna posts relacionados... na mesma categoria
+     * Excluindo próprío post
      * 
      * @return \WP_Query
      */
@@ -129,28 +138,58 @@ class Wpost {
 
         $args = wp_parse_args($args, array(
             'showposts' => -1,
-            'post__not_in' => array($this->id),
+            'post__not_in' => array($this->ID),
             'ignore_sticky_posts' => 0,
-            'category__in' => wp_get_post_categories($this->id)
+            'category__in' => wp_get_post_categories($this->ID)
         ));
 
         $query = new WP_Query($args);
 
         return $query;
     }
-    
+
     /**
      * Retorna a páginas mãe como um objeto Wpost
      * @return \self
      */
-    public function parent()
+    public function presentParent()
     {
-        if((int)$this->parentId === 0)
+        if ((int) $this->post_parent === 0)
         {
             return false;
         }
-        $parent = get_post($this->parentId);
+        $parent = get_post($this->post_parent);
         return new self($parent);
     }
+    
+    /**
+     * Retorna os IDs das categorias a que o post pertence
+     * @return array
+     */
+    public function presentCategory()
+    {
+        return wp_get_post_categories($this->ID);
+    }
+    
+    public function presentChildren()
+    {
+
+        $all_wp_pages = new WP_Query(array(
+            'post_type' => 'page',
+            'post_parent' => $this->ID,
+            'orderby' => 'menu_order',
+            'order' => 'ASC')
+        );
+        
+        if(count($all_wp_pages->posts) > 0)
+        {
+            return $all_wp_pages;
+        }
+        
+        return false;
+//        return get_page_children($pageId, $this->all());
+    }
+
+    
 
 }

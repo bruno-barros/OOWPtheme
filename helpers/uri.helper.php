@@ -18,7 +18,7 @@ if (!function_exists('uri_array'))
      */
     function uri_array()
     {
-        $uri = trim($_SERVER["REQUEST_URI"], '/');
+        $uri = trim($_SERVER['REQUEST_URI'], '/');
         $aUri = explode('/', $uri);
 
         return $aUri;
@@ -29,9 +29,17 @@ if (!function_exists('uri_array'))
 if (!function_exists('uri_ends'))
 {
 
+    /**
+     * Verifica se a uri termina com a string passada como argumento
+     * 
+     * @param string $needed
+     * @return boolean
+     */
     function uri_ends($needed)
     {
-        if (end(uri_array()) == $needed)
+        $uriArray = uri_array();
+        $final = $uriArray[count($uriArray) - 1];
+        if ($final == $needed)
         {
             return true;
         }
@@ -193,6 +201,23 @@ if (!function_exists('widgets_folder'))
     function widgets_folder($script = '')
     {
         $filename = TEMPLATEPATH . '/widgets/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}
+
+if (!function_exists('core_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de templates
+     * @param type $img
+     * @return string
+     */
+    function core_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/core/' . trim($script, '/');
 
         return $filename;
     }

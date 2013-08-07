@@ -19,6 +19,8 @@ include_once(TEMPLATEPATH . '/core/AutoLoader.php');
 
 // Register the directory to your include files
 AutoLoader::registerDirectory('libraries');
+AutoLoader::registerDirectory('models');
+AutoLoader::registerDirectory('plugins');
 
 
 
