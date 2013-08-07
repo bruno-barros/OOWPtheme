@@ -59,7 +59,7 @@ d($post->slug);
 d($post->title);
 d($post->permalink);
 d($post->thumb);
-d($post->category);
+d($post->category);// array
 
 
 /** ========================================================================

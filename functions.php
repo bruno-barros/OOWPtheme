@@ -40,7 +40,7 @@ require(TEMPLATEPATH . '/core/WpThemeStart.php');
  * Classe para insejeção de scripts
  * -----------------------------------------------------------------------
  */
-$assets = new Assets();
+$assets = new Wassets();
 // scripts padrão
 $assets->add('bootstrap', 'bootstrap.css');
 $assets->add('bootstrap-responsive', 'bootstrap-responsive.css', 'bootstrap');
@@ -54,10 +54,10 @@ $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
  *     Menus personalizados
  * ------------------------------------------------------------------------
  */
-$menuPrincipal = new Menu('Menu Aldeia', array(
+$menuPrincipal = new Wmenu('Menu principal', array(
     'menu_id' => ''
         ));
-$menuPrincipal->afterRaw('<li class="item-aluno"><a href="http://www.aldeiamontessori.com.br/aluno/" target="_blank"> <i class="ico icon-aluno"></i> <span>Aluno</span></a></li>');
+$menuPrincipal->afterRaw('<li class="item-aluno"><a href="#" target="_blank"> <i class="ico"></i> <span>Aluno</span></a></li>');
 
 /** ========================================================================
  *     Execuções no momento da geração do header

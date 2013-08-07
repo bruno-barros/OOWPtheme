@@ -15,7 +15,7 @@ function oowptheme_scripts_styles()
 
 add_action('wp_enqueue_scripts', 'oowptheme_scripts_styles');
 
-class Assets {
+class Wassets {
 
     public static $instance;
 

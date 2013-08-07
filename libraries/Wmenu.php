@@ -7,7 +7,7 @@
  * $config = array(
  * 
  * );
- * $menuPrincipal = new Menu('menu-principal', $config);
+ * $menuPrincipal = new Wmenu('menu-principal', $config);
  * 
  * // no template
  * io('menuPrincipal')->render();
@@ -21,7 +21,7 @@
  * @copyright   Copyright (c) 2013 Bruno Barros
  * 
  */
-class Menu {
+class Wmenu {
 
     /**
      * Armazena as configurações

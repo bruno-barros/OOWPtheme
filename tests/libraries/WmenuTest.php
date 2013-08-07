@@ -2,13 +2,13 @@
 
 //require_once "libraries/Menu.php";
 
-class MenuTest extends Testcase {
+class WmenuTest extends Testcase {
 
     private $menu;
 
     public function setUp()
     {
-        $this->menu = new Menu('test', array(
+        $this->menu = new Wmenu('test', array(
             'container' => 'ul'
         ));
     }
