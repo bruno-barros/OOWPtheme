@@ -1,3 +1,0 @@
-<?php
-
-$html .= "<br> footer";

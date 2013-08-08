@@ -2,9 +2,8 @@
 /**
  * The Header for our theme.
  *
- * Displays all of the <head> section and everything up till <div id="main">
  *
- * @package WPtheme
+ * @package OOWPtheme
  */
 ?>
 <!DOCTYPE html>
@@ -21,9 +20,8 @@
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
-<?php // Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions. ?>
 <!--[if lt IE 9]>
-<script src="<?php echo get_template_directory_uri(); ?>/js/html5shiv.respond.min.js" type="text/javascript"></script>
+<script src="<?php echo js_folder('html5shiv.respond.min.js'); ?>" type="text/javascript"></script>
 <![endif]-->
 <?php wp_head(); ?>
 </head>
@@ -40,32 +38,12 @@
 		
 		<div class="row">
 			
-			<div class="span8">
+			<div class="span12 well">
 				
 				<h1><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-				<small><?php bloginfo( 'description' ); ?></small>
-
-			</div>
-
-			<div class="span4">
-				<?php get_search_form(); ?>
-			</div>
-
-		</div><!-- row -->
-
-		<div class="row">
-			
-			<div class="span12">
 				<?php
-				/** =======================================================================
-				 * 	Escreve lista não ordenada com as páginas
-				 * ------------------------------------------------------------------------
-				 */
-				wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); 
-
 				/** ========================================================================
 				 * 	Escreve HTML do menu personalizado
-				 * 	A chamada da classe está no functions.php
 				 * ------------------------------------------------------------------------
 				 */
 				io('menuPrincipal')->render();

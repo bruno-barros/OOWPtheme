@@ -65,21 +65,28 @@ class Wmenu {
      */
     private $menuId = '';
 
-    public function __construct($menu, $config = array())
+    public function __construct($menu = null, $config = null)
     {
+        if(is_array($menu) && $config === null)
+        {
+            $config = $menu;
+            $menu = '';
+        }
         $this->menuId = $menu;
         $this->initialize($config);
     }
 
     public function initialize($userConfig)
     {
-        foreach ($this->configs as $key => $value)
-        {
-            if(isset($userConfig[$key]))
-            {
-                $this->configs[$key] = $userConfig[$key];
-            }
-        }
+//        foreach ($this->configs as $key => $value)
+//        {
+//            if(isset($userConfig[$key]))
+//            {
+//                $this->configs[$key] = $userConfig[$key];
+//            }
+//        }
+        
+        $this->configs = array_merge($this->configs, $userConfig);
         
         // define o ID do menu
         $this->configs['menu'] = $this->menuId;

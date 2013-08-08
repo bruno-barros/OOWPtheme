@@ -125,6 +125,15 @@ class Wpost {
 
         return $img[0];
     }
+    
+    /**
+     * Conteúdo do post
+     * @return string
+     */
+    public function presentContent()
+    {
+        return $this->post_content;
+    }
 
     /**
      * Retorna posts relacionados... na mesma categoria

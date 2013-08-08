@@ -146,26 +146,33 @@ class Wmail {
      */
     public function renderBody()
     {
-        $path = TEMPLATEPATH . '/templates/' . trim($this->templateFolder, '/');
+        $path = templates_folder($this->templateFolder);
         $html = '';
-        foreach ($this->templateVars as $key => $value)
-        {
-            ${$key} = $value;
-        }
+        
+        $tmpl = new Wtmpl();
+        $tmpl->assign($this->templateVars);
+        
+//        foreach ($this->templateVars as $key => $value)
+//        {
+//            ${$key} = $value;
+//        }
         // carrega header
-        if (file_exists($path . '/header.php'))
+        if (file_exists($path . '/header.html'))
         {
-            include $path . '/header.php';
+//            include $path . '/header.php';
+            $html .= $tmpl->fetch($this->templateFolder . '/header.html');
         }
         // carrega body
-        if (file_exists($path . '/body.php'))
+        if (file_exists($path . '/body.html'))
         {
-            include $path . '/body.php';
+//            include $path . '/body.php';
+            $html .= $tmpl->fetch($this->templateFolder . '/body.html');
         }
         // carrega footer
-        if (file_exists($path . '/footer.php'))
+        if (file_exists($path . '/footer.html'))
         {
-            include $path . '/footer.php';
+//            include $path . '/footer.php';
+            $html .= $tmpl->fetch($this->templateFolder . '/footer.html');
         }
         // concatena
         // salva
@@ -233,7 +240,7 @@ class Wmail {
     {
 //        dd($this->urlOrigin);
 //        
-//        dd($this->renderBody(), true);
+        dd($this->renderBody(), true);
 
         if ($this->smtpAuth)
         {

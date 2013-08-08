@@ -25,6 +25,8 @@ define('ENVIROMENT', ($_SERVER['HTTP_HOST'] == 'localhost') ? 'development' : 'p
 // bootstrap do tema
 require(TEMPLATEPATH . '/core/WpThemeStart.php');
 
+
+
 /**
  * =======================================================================
  *  Faz detecção do tipo de dispositivo
@@ -52,12 +54,18 @@ $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
 
 /** ========================================================================
  *     Menus personalizados
+ *     Na view: io('menuPrincipal')->render();
  * ------------------------------------------------------------------------
  */
-$menuPrincipal = new Wmenu('Menu principal', array(
-    'menu_id' => ''
-        ));
-$menuPrincipal->afterRaw('<li class="item-aluno"><a href="#" target="_blank"> <i class="ico"></i> <span>Aluno</span></a></li>');
+// $menuPrincipal = new Wmenu('Menu principal', array());
+/** ========================================================================
+ * 	Menu com as páginas
+ * ------------------------------------------------------------------------
+ */
+$menuPrincipal = new Wmenu('Principal', array(
+	'container' => '',
+	'menu_class' => 'nav nav-pills',
+));
 
 /** ========================================================================
  *     Execuções no momento da geração do header

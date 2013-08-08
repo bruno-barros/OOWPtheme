@@ -28,9 +28,40 @@ if (!function_exists('was_form_sent'))
 
 }
 
-if (!function_exists('form_action'))
+if (!function_exists('form_returned_error'))
 {
-    
+    function form_returned_error()
+    {
+        if(isset($_GET['fail']))
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+if (!function_exists('form_returned_message'))
+{
+    function form_returned_message()
+    {
+        if(isset($_GET['message']))
+        {
+            return urldecode($_GET['message']);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('form_returned_success'))
+{
+    function form_returned_success()
+    {
+        if(isset($_GET['success']))
+        {
+            return true;
+        }
+        return false;
+    }
 }
 
 /**

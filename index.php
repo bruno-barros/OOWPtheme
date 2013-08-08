@@ -2,16 +2,11 @@
 /**
  * The main template file.
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package WPtheme
+ * @package OOWPtheme
  */
 
-get_header(); 
-
-
+get_header();
 ?>
-
 
 <div id="page">
 	
@@ -21,8 +16,6 @@ get_header();
 
 		<div id="main" class="span9 site-content" role="main">
 			
-		
-	
 
 		<?php 
 		/*
@@ -36,14 +29,12 @@ get_header();
 		|	Looping pelos posts
 		|---------------------------------------------------------------------------------
 		*/
-		while ( have_posts() ) : the_post(); 
-		?>
-			<?php get_template_part( 'content', get_post_format() ); ?>
-		<?php 
+		while ( have_posts() ) : the_post(); 		
+			
+			get_template_part( 'content', get_post_format() );
+		
 		endwhile; 
-		?>
-
-		<?php 
+		 
 		else : 
 		?>
 
