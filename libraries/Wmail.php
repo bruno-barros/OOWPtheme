@@ -282,7 +282,7 @@ class Wmail {
     public function redirect()
     {
         
-        if ($this->error === false)
+        if ($this->error !== false)
         {
 //            header("Location: {$this->urlOrigin}" . '/?fail&amp;message=' . urlencode($this->error));
             $url = $this->urlOrigin . '/?fail&amp;message=' . urlencode($this->error);
