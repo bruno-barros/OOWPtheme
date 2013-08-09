@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Boootrap do tema
  * * Deve ser inserido no início do functions.php
@@ -101,4 +100,13 @@ function getInstanceOf($className)
 function io($className)
 {
     return getInstanceOf($className);
+}
+
+/**
+ * Inicia a sessão nativa do PHP
+ */
+function oowp_start_session() {
+    if(!session_id()) {
+        session_start();
+    }
 }

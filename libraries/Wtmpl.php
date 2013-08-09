@@ -47,7 +47,7 @@ class Wtmpl extends Template_Lite
         }
         if(! is_dir(WP_CONTENT_DIR . "/cache/"))
         {
-            throw new Exception('Pasta de cache não pode se criada.');
+            throw new Exception('Pasta de cache não pôde se criada em wp-content/cache.');
         }
     }
 }

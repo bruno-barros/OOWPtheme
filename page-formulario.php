@@ -4,9 +4,6 @@
  *
  * @package OOWPtheme
  */
-
-get_header();
-
 /** ========================================================================
  *    Processa envio de formulário
  * ------------------------------------------------------------------------
@@ -14,16 +11,26 @@ get_header();
 if(was_form_sent()){
     // OK, vamos enviar!
     $m = new Wmail();
-    $m->setTemplate('email');
-    $m->setTemlateVars(array(
-        'nome' => $_POST['nome']
-    ));
+    $m->debugModeOn();
     $m->setSubject('contato');
     $m->respondTo($_POST['email'], $_POST['nome']);
+    $m->setTemplate('email/contato.html');
+    $m->setRules(array(
+        array('nome', 'string', true, 3),
+        array('email', 'email', true),
+        array('mensagem', 'string', true, 10),
+    ));
+    // optional
+    // $m->setTemlateVars(array(
+    //     'nome' => $_POST['nome'],
+    //     'email' => $_POST['email'],
+    //     'mensagem' => $_POST['mensagem'],
+    // ));
 //    $m->setAttachment('file');
-    $m->send();
-    $m->redirect();
+    $m->sendAndRedirect();
 }
+
+get_header();
 ?>
 
 <div id="page">
@@ -80,7 +87,8 @@ if(was_form_sent()){
 			<div class="control-group">
                 <label class="control-label" for="field_nome">Nome</label>
                 <div class="controls">
-                    <input type="text" name="nome" id="field_nome" placeholder="" class="input-large required">
+                    <input type="text" name="nome" id="field_nome" placeholder="" class="input-large required" value="<?php echo set_value('nome') ?>">
+                    <?php echo form_error('nome') ?>
                 </div>
             </div><!-- control-group -->
 
@@ -88,6 +96,15 @@ if(was_form_sent()){
                 <label class="control-label" for="field_email">E-mail</label>
                 <div class="controls">
                     <input type="email" name="email" id="field_email" placeholder="" class="input-large required">
+                    <?php echo form_error('email') ?>
+                </div>
+            </div><!-- control-group -->
+
+            <div class="control-group">
+                <label class="control-label" for="field_mensagem">Mensagem</label>
+                <div class="controls">
+                    <textarea name="mensagem" id="field_mensagem" cols="30" rows="6" class="input-large required"></textarea>
+                    <?php echo form_error('mensagem') ?>
                 </div>
             </div><!-- control-group -->
 

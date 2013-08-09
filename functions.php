@@ -1,31 +1,58 @@
 <?php
 
-/**
- * Template com classes para manipulação de conteúdo separando em camadas:
- * - Model
- * -- libraires
- * -- models
- * -- plugins
- * - View
- * -- templates
- * - Tests
- * -- PHPUnit
- * -- page-oowpthemetest
+/* * |||||||||||||||||||||||||||||||||||||||||
+ * ||                                       ||
+ * ||   MANTENHA SEU CÓDIGO ORGANIZADO      ||
+ * ||                                       ||
+ * ||   Separe as camadas de apresentação,  ||
+ * ||   dados e regras de negócio.  :-)     ||
+ * ||                                       ||
+ * |||||||||||||||||||||||||||||||||||||||||||
+ * 
+ * Template com classes para manipulação de 
+ * conteúdo separando em camadas.
+ * 
+ * - assets    : css, javascript e imagens do tema.
+ * - config    : arquivos que configuram ou estabelecem valores padrão, 
+ *               como: autenticação de emails, sidebars e custom post types.
+ * - core      : scripts de funcionamento interno do tema.
+ * - helpers   : funções úteis para tratamento de String, Array, Uri etc.
+ * - libraries : repositório de classes que extendem WP e de terceiros.
+ * - models    : classes personalizadas que extendem as libs do tema (libraries).
+ * - plugins   : classes wraper para plugins instalados no tema.
+ * - templates : trexos do template que são reutilizados nos temas e modelos de email.
+ * - tests     : testes unitários das libs e helpers do tema.
+ * - widgets   : coleção de widgets. habilitar em widgets/widgets.php.
  * 
  * **
  * Para executar testes sob o ambiente do WP e ter exemplos de código crie
  * uma página com o nome 'oowpthemetest', acesse e veja o resultado.
+ * **
+ * Atenção: não utilizar nome de variáveis comuns para não haver colisão com
+ * WP, como: $page, $pages, $post, $posts, $menu, $menus etc.
  * 
  * @package OOWPtheme
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright   Copyright (c) 2013 Bruno Barros
  * 
  */
+add_action('init', 'oowp_start_session', 1);
+
 define('ENVIROMENT', ($_SERVER['HTTP_HOST'] == 'localhost') ? 'development' : 'production');
 // bootstrap do tema
-require(TEMPLATEPATH . '/core/WpThemeStart.php');
+require_once TEMPLATEPATH . '/core/WpThemeStart.php';
 
 
+/**
+ * =======================================================================
+ *  Sistema de template
+ *  Arquivos de template devem estar dentro da pasta 'templates'
+ *  @see libraries/template_lite/demo
+ * -----------------------------------------------------------------------
+ */
+//$tmpl = new Wtmpl();
+//$tmpl->assign('array');
+//echo $tmpl->fetch($file);
 
 /**
  * =======================================================================
@@ -63,9 +90,9 @@ $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
  * ------------------------------------------------------------------------
  */
 $menuPrincipal = new Wmenu('Principal', array(
-	'container' => '',
-	'menu_class' => 'nav nav-pills',
-));
+    'container' => '',
+    'menu_class' => 'nav nav-pills',
+        ));
 
 /** ========================================================================
  *     Execuções no momento da geração do header
@@ -89,14 +116,6 @@ add_action('get_header', 'oowptheme_header_actions');
 
 
 /** ========================================================================
- *    Registra widgets e sidebars
- * ------------------------------------------------------------------------
- */
-require_once widgets_folder('sidebars.php');
-require_once widgets_folder('widgets.php');
-
-
-/** ========================================================================
  *     Post support
  *     Adiciona funcionalidades, como imagem destacada
  *     @link http://codex.wordpress.org/add_theme_support
@@ -104,35 +123,39 @@ require_once widgets_folder('widgets.php');
  */
 add_theme_support('post-thumbnails');
 
+
+/** ========================================================================
+ *    Registra widgets e sidebars
+ * ------------------------------------------------------------------------
+ */
+require config_folder('sidebars.php');
+require widgets_folder('widgets.php');
+
 /** ========================================================================
  *     Custom Post types
  * ------------------------------------------------------------------------
  */
-require_once config_folder('custom-post-types.php');
-
+require config_folder('custom-post-types.php');
 
 /** ========================================================================
  *     Templates de comentários
  * ------------------------------------------------------------------------
  */
-require_once templates_folder('comments/list-callback.php');
-
+require templates_folder('comments/list-callback.php');
 
 /** ========================================================================
  *     Templates de metadados de posts
  * ------------------------------------------------------------------------
  */
-require_once templates_folder('entry-meta.php');
-require_once templates_folder('content-nav.php');
-
-
+require templates_folder('entry-meta.php');
+require templates_folder('content-nav.php');
 
 /** ========================================================================
  * 	ADMIN
  * 	Alterações no painel de administração
  * ------------------------------------------------------------------------
  */
-include core_folder('AdminConfig.php');
+require config_folder('admin-config.php');
 
 /**     
  * Configuração de FTP que deve ser colocado em wp-config.php

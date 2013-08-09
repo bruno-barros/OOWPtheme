@@ -13,22 +13,11 @@ return array(
     /**
      * Dados de autenticação
      */
-    'host' => 'yourhost',
+    'smtpHost' => '',
     'username' => 'user',
     'password' => 'pass',
     'smtpSecure' => 'tls',
-    'host' => 'mail.brunobarros.com',
-    'username' => 'bruno@brunobarros.com',
-    'password' => 'bb020476',
-    'smtpSecure' => '',
-    
-    /**
-     * Dados de autenticação para debug
-     */
-    'hostDebug' => 'yourhost',
-    'usernameDebug' => 'user',
-    'passwordDebug' => 'pass',
-    'smtpSecureDebug' => 'tls',
+    'smtpPort' => 587,
     
     /**
      * Dados do destinatário
@@ -40,5 +29,16 @@ return array(
      */
     'fromEmail' => 'brunodanca@gmail.com',
     'fromName' => 'Site Bruno',
-    'bccEmail' => ''
+    'bccEmail' => '',
+    
+    /**
+     * Dados de autenticação para debug
+     * Sobrepõe dados de autenticação padrão
+     */
+    'sendToDebug' => false,
+    'smtpHostDebug' => 'debug',
+    'usernameDebug' => '',
+    'passwordDebug' => '',
+    'smtpSecureDebug' => 'tls',
+    'smtpPortDebug' => 587,
 );

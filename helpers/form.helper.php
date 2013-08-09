@@ -11,6 +11,7 @@
  */
 if (!function_exists('was_form_sent'))
 {
+
     /**
      * Retorna TRUE caso exista as condições de um form enviado
      * $_GET['a'] = 'sent'
@@ -30,52 +31,61 @@ if (!function_exists('was_form_sent'))
 
 if (!function_exists('form_returned_error'))
 {
+
     function form_returned_error()
     {
-        if(isset($_GET['fail']))
+        if (isset($_GET['fail']))
         {
             return true;
         }
         return false;
     }
+
 }
 
 if (!function_exists('form_returned_message'))
 {
+
     function form_returned_message()
     {
-        if(isset($_GET['message']))
+        if (isset($_GET['message']))
         {
             return urldecode($_GET['message']);
         }
         return false;
     }
+
 }
 
 if (!function_exists('form_returned_success'))
 {
+
     function form_returned_success()
     {
-        if(isset($_GET['success']))
+        if (isset($_GET['success']))
         {
             return true;
         }
         return false;
     }
+
 }
 
-/**
- * Form Close Tag
- *
- * @access	public
- * @param	string
- * @return	string
- */
+
 if (!function_exists('form_close'))
 {
 
+    /**
+     * Form Close Tag
+     *
+     * @access	public
+     * @param	string
+     * @return	string
+     */
     function form_close($extra = '')
     {
+        $_SESSION['oowpvalidationerrors'] = null;
+        unset($_SESSION['oowpvalidationerrors']);
         return "</form>" . $extra;
     }
 
@@ -106,7 +116,7 @@ if (!function_exists('form_open'))
         // If no action is provided then set to the current url
         $action = get_permalink();
         $action .= '?a=sent';
-        $action .= '&amp;p=' . get_permalink();
+        $action .= '&p=' . get_permalink();
 
         $form = '<form action="' . $action . '"';
 
@@ -124,7 +134,6 @@ if (!function_exists('form_open'))
     }
 
 }
-
 
 if (!function_exists('form_open_multipart'))
 {
@@ -155,7 +164,6 @@ if (!function_exists('form_open_multipart'))
     }
 
 }
-
 
 if (!function_exists('form_hidden'))
 {
@@ -224,7 +232,7 @@ if (!function_exists('form_prep'))
     {
         static $prepped_fields = array();
 
-        // if the field name is an array we do this recursively
+// if the field name is an array we do this recursively
         if (is_array($str))
         {
             foreach ($str as $key => $val)
@@ -240,10 +248,10 @@ if (!function_exists('form_prep'))
             return '';
         }
 
-        // we've already prepped a field with this name
-        // @todo need to figure out a way to namespace this so
-        // that we know the *exact* field and not just one with
-        // the same name
+// we've already prepped a field with this name
+// @todo need to figure out a way to namespace this so
+// that we know the *exact* field and not just one with
+// the same name
         if (isset($prepped_fields[$field_name]))
         {
             return $str;
@@ -251,7 +259,7 @@ if (!function_exists('form_prep'))
 
         $str = htmlspecialchars($str);
 
-        // In case htmlspecialchars misses these.
+// In case htmlspecialchars misses these.
         $str = str_replace(array("'", '"'), array("&#39;", "&quot;"), $str);
 
         if ($field_name != '')
@@ -260,6 +268,51 @@ if (!function_exists('form_prep'))
         }
 
         return $str;
+    }
+
+}
+
+
+
+
+if (!function_exists('set_value'))
+{
+
+    /**
+     * Form Value
+     *
+     * Grabs a value from the POST array for the specified field so you can
+     * re-populate an input field or textarea.  If Form Validation
+     * is active it retrieves the info from the validation class
+     *
+     * @access	public
+     * @param	string
+     * @return	mixed
+     */
+    function set_value($field = '', $default = '')
+    {
+
+        if (!isset($_POST[$field]))
+        {
+            return $default;
+        }
+
+        return form_prep($_POST[$field], $field);
+    }
+
+}
+
+
+if (!function_exists('form_error'))
+{
+
+    function form_error($field = '')
+    {
+        if (isset($_SESSION['oowpvalidationerrors'][$field]))
+        {
+            return '<label class="error">' . $_SESSION['oowpvalidationerrors'][$field] . '</label>';
+        }
+        return false;
     }
 
 }

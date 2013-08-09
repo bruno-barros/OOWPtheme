@@ -784,6 +784,9 @@ label {
   display: block;
   margin-bottom: 5px;
 }
+label.error{
+    color: rgb(201, 15, 15);
+}
 select,
 textarea,
 input[type="text"],

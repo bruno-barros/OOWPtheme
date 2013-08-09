@@ -1,7 +1,10 @@
 <?php
+
 /**
  * Classe responsável pelo envio de emails
- * 
+ * * Dependências:
+ * - libraries/PHPMailer
+ * - libraires/Validation
  * <code>
  * </code>
  * 
@@ -23,36 +26,48 @@ if (!defined('ENVIROMENT'))
 }
 require_once TEMPLATEPATH . '/core/WpThemeStart.php';
 
-
 class Wmail {
 
     public $smtpAuth = false; // Enable SMTP authentication
-    public $host = 'smtp1.example.com;smtp2.example.com';
+    public $smtpHost = 'smtp1.example.com;smtp2.example.com';
     public $username = ''; // SMTP username
     public $password = ''; // SMTP password
     public $smtpSecure = 'tls';
+    public $smtpPort = 587;
     public $defaults = array();
     private $phpMailer = null;
     public $subject = '';
     public $error = false;
-    public $templateFolder = 'email';
-    public $templateVars = array();
+    public $template = '';
+    public $templateVars = null;
     public $body = '';
     public $urlOrigin = '';
     public $respondTo = array();
+    public $debug = false;
+    public $validation = null;
 
     public function __construct()
     {
         require_once TEMPLATEPATH . '/libraries/phpmailer/extras/class.html2text.php';
         require_once TEMPLATEPATH . '/libraries/phpmailer/class.phpmailer.php';
+        $this->validation = new Validation();
         $this->phpMailer = new PHPMailer();
         $this->phpMailer->SetLanguage('br');
         $this->defaults = $this->loadConfig();
         $this->setAuthParams($this->defaults);
-        if(isset($_GET['p']))
+        if (isset($_GET['p']))
         {
             $this->urlOrigin = trim($_GET['p'], '/');
         }
+    }
+    
+    /**
+     * Limpa array da sessão com erros de validação
+     */
+    public function clearSession()
+    {
+        $_SESSION['oowpvalidationerrors'] = null;
+        unset($_SESSION['oowpvalidationerrors']);
     }
 
     /**
@@ -61,16 +76,19 @@ class Wmail {
      */
     public function setAuthParams($authParams = array())
     {
-        if (empty($authParams))
+        if (empty($authParams) || $authParams['smtpHost'] == '')
         {
             $this->smtpAuth = false;
         }
-
-        $this->smtpAuth = true;
-        $this->host = $authParams['host'];
-        $this->username = $authParams['username'];
-        $this->password = $authParams['password'];
-        $this->smtpSecure = $authParams['smtpSecure'];
+        else
+        {
+            $this->smtpAuth = true;
+            $this->smtpHost = $authParams['smtpHost'];
+            $this->username = $authParams['username'];
+            $this->password = $authParams['password'];
+            $this->smtpSecure = $authParams['smtpSecure'];
+            $this->smtpPort = $authParams['smtpPort'];
+        }
     }
 
     /**
@@ -81,11 +99,29 @@ class Wmail {
     {
         return array(
             'smtpAuth' => $this->smtpAuth,
-            'host' => $this->host,
+            'smtpHost' => $this->smtpHost,
             'username' => $this->username,
             'password' => $this->password,
-            'smtpSecure' => $this->smtpSecure
+            'smtpSecure' => $this->smtpSecure,
+            'smtpPort' => $this->smtpPort
         );
+    }
+
+    /**
+     * Ao fazer testes chame este método antes do send() para exibir o email
+     * montado e interromper o envio.
+     */
+    public function debugModeOn()
+    {
+        $this->debug = true;
+    }
+
+    public function printDebug()
+    {
+        echo $this->renderBody();
+        echo '<pre>';
+        print_r($this->getAuthParams());
+        exit;
     }
 
     /**
@@ -101,7 +137,7 @@ class Wmail {
             'name' => $name
         );
     }
-    
+
     /**
      * Carrega configurações do arquivo 'config/email.php'
      * @return array|boolean
@@ -118,11 +154,11 @@ class Wmail {
 
     /**
      * Carrega template de email dentro da pasta 'templates'
-     * @param string $templateView
+     * @param string $template
      */
-    public function setTemplate($templateView = 'email')
+    public function setTemplate($templateView = '')
     {
-        $this->templateFolder = $templateView;
+        $this->template = $templateView;
     }
 
     /**
@@ -139,42 +175,66 @@ class Wmail {
 
         $this->templateVars = $array;
     }
-    
-    
+
     /**
-     * Combina variáveis via POST com o template e retorna corpo do e-mail
+     * Salva os campos de validação
+     * @param array $rules
+     */
+    public function setRules($rules = array())
+    {
+        if (!is_array($rules))
+        {
+            return;
+        }
+        foreach ($rules as $rule)
+        {
+            $field = (isset($rule[0])) ? $rule[0] : null;
+            $type = (isset($rule[1])) ? $rule[1] : null;
+            $req = (isset($rule[2])) ? $rule[2] : false;
+            $min = (isset($rule[3])) ? $rule[3] : 0;
+            $max = (isset($rule[4])) ? $rule[4] : null;
+            $trim = (isset($rule[5])) ? $rule[5] : true;
+//            dd($rule);
+            $this->validation->addRule($field, $type, $req, $min, $max, $trim);
+        }
+    }
+
+    /**
+     * Performa a validação de acordo com as regas estabelecidas
+     */
+    public function runValidation()
+    {
+        $this->validation->addSource($_POST);
+        return $this->validation->isValid();
+    }
+
+    public function getErros()
+    {
+        return $this->validation->errors;
+    }
+
+    /**
+     * Renderiza template, salva e retorna HTML final
      */
     public function renderBody()
     {
-        $path = templates_folder($this->templateFolder);
+        $template = templates_folder($this->template);
         $html = '';
-        
+        if ($this->templateVars === null)
+        {
+            $this->setTemlateVars();
+        }
+
+        // instancia o template
         $tmpl = new Wtmpl();
+        // insere as variáveis no template
         $tmpl->assign($this->templateVars);
-        
-//        foreach ($this->templateVars as $key => $value)
-//        {
-//            ${$key} = $value;
-//        }
-        // carrega header
-        if (file_exists($path . '/header.html'))
+
+        // renderiza template
+        if (file_exists($template))
         {
-//            include $path . '/header.php';
-            $html .= $tmpl->fetch($this->templateFolder . '/header.html');
+            $html .= $tmpl->fetch($this->template);
         }
-        // carrega body
-        if (file_exists($path . '/body.html'))
-        {
-//            include $path . '/body.php';
-            $html .= $tmpl->fetch($this->templateFolder . '/body.html');
-        }
-        // carrega footer
-        if (file_exists($path . '/footer.html'))
-        {
-//            include $path . '/footer.php';
-            $html .= $tmpl->fetch($this->templateFolder . '/footer.html');
-        }
-        // concatena
         // salva
         $this->body = $html;
         return $this->body;
@@ -236,20 +296,43 @@ class Wmail {
         }
     }
 
+    /**
+     * Faz o envio da mensagem
+     * @return boolean
+     */
     public function send()
     {
-//        dd($this->urlOrigin);
-//        
-        dd($this->renderBody(), true);
+        $this->clearSession();
+        
+        if ($this->runValidation() === false)
+        {
+            // colocar os error na sessão
+            $_SESSION['oowpvalidationerrors'] = $this->getErros();
+            $this->error = "Campos inválidos.";
+            $this->redirect();
+        }
+
+        // verifica se o modo de debug está ativo e sobrepõe autenticação
+        if ($this->defaults['sendToDebug'])
+        {
+            $this->setAuthParams(array(
+                'smtpHost' => $this->defaults['smtpHostDebug'],
+                'username' => $this->defaults['usernameDebug'],
+                'password' => $this->defaults['passwordDebug'],
+                'smtpSecure' => $this->defaults['smtpSecureDebug'],
+                'smtpPort' => $this->defaults['smtpPortDebug']
+            ));
+        }
 
         if ($this->smtpAuth)
         {
             $this->phpMailer->IsSMTP();
-            $this->phpMailer->Host = $this->host;
+            $this->phpMailer->Host = $this->smtpHost;
             $this->phpMailer->SMTPAuth = true;
             $this->phpMailer->Username = $this->username;
             $this->phpMailer->Password = $this->password;
             $this->phpMailer->SMTPSecure = $this->smtpSecure;
+            $this->phpMailer->Port = $this->smtpPort;
         }
 
         $this->phpMailer->From = $this->defaults['fromEmail'];
@@ -257,7 +340,7 @@ class Wmail {
         $this->phpMailer->AddAddress($this->defaults['toEmail'], $this->defaults['toName']);
 
         $this->phpMailer->AddReplyTo($this->respondTo['email'], $this->respondTo['name']);
-        
+
         if ($this->defaults['bccEmail'] != '')
         {
             $this->phpMailer->AddBCC($this->defaults['bccEmail']);
@@ -270,6 +353,12 @@ class Wmail {
         $this->phpMailer->Body = $this->renderBody();
         $this->phpMailer->AltBody = $this->renderText();
 
+        // antes de enviar verifica se está em modo de debug
+        if ($this->debug)
+        {
+            $this->printDebug();
+        }
+
         if (!$this->phpMailer->Send())
         {
             $this->error = $this->phpMailer->ErrorInfo;
@@ -279,26 +368,48 @@ class Wmail {
         return true;
     }
 
-    public function redirect()
+    /**
+     * Método chamado após o envio para redirecionar o usuário para a página de destino
+     * Por padrão, o script está dentro de uma página de template, por isso header()
+     * não pode ser usado, caso o script de envio não esteja em um template WP 
+     * é possível habilitar o redirecionamento via header().
+     * @param boolean $usingHeaderRedirect
+     */
+    public function redirect($usingHeaderRedirect = false)
     {
-        
+
         if ($this->error !== false)
         {
-//            header("Location: {$this->urlOrigin}" . '/?fail&amp;message=' . urlencode($this->error));
-            $url = $this->urlOrigin . '/?fail&amp;message=' . urlencode($this->error);
+            $url = $this->urlOrigin . '/?fail&message=' . urlencode($this->error);
         }
         else
         {
-//            header("Location: {$this->urlOrigin}" . '/?success');
-            $url = $this->urlOrigin . '/?success';            
+            $url = $this->urlOrigin . '/?success';
         }
-            
+
+        if ($usingHeaderRedirect)
+        {
+            header("Location: {$url}");
+            exit;
+        }
+
         echo '<script type="text/javascript">';
         echo 'window.location.href="' . $url . '";';
         echo '</script>';
         echo '<noscript>';
         echo '<meta http-equiv="refresh" content="0;url=' . $url . '" />';
         echo '</noscript>';
+    }
+
+    /**
+     * Faz o envio e executa redirecionamento na mesma função.
+     * Um atalho para não precisar chamar as duas funções no template.
+     * @param boolean $usingHeaderRedirect
+     */
+    public function sendAndRedirect($usingHeaderRedirect = false)
+    {
+        $sent = $this->send();
+        $this->redirect($usingHeaderRedirect);
     }
 
 }
