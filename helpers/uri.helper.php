@@ -9,6 +9,14 @@
  * @copyright   Copyright (c) 2013 Bruno Barros
  * 
  */
+if(!function_exists('site_url'))
+{
+    function site_url($page = '')
+    {
+        return get_site_url() .'/'. trim($page, '/');
+    }
+}
+
 if (!function_exists('uri_array'))
 {
 
