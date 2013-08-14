@@ -95,7 +95,7 @@ get_header();
             <div class="control-group">
                 <label class="control-label" for="field_email">E-mail</label>
                 <div class="controls">
-                    <input type="email" name="email" id="field_email" placeholder="" class="input-large required">
+                    <input type="email" name="email" id="field_email" placeholder="" class="input-large required" value="<?php echo set_value('email') ?>">
                     <?php echo form_error('email') ?>
                 </div>
             </div><!-- control-group -->
@@ -103,7 +103,7 @@ get_header();
             <div class="control-group">
                 <label class="control-label" for="field_mensagem">Mensagem</label>
                 <div class="controls">
-                    <textarea name="mensagem" id="field_mensagem" cols="30" rows="6" class="input-large required"></textarea>
+                    <textarea name="mensagem" id="field_mensagem" cols="30" rows="6" class="input-large required"><?php echo set_value('mensagem') ?></textarea>
                     <?php echo form_error('mensagem') ?>
                 </div>
             </div><!-- control-group -->
