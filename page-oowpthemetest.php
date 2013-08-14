@@ -60,6 +60,7 @@ d($post->title);
 d($post->permalink);
 d($post->thumb);
 d($post->category);// array
+d('Autor: ' . $post->authorName);
 
 
 /** ========================================================================

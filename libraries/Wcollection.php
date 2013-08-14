@@ -26,7 +26,7 @@ class Wcollection extends WP_Query {
 
     public function __construct($args = array())
     {
-        global $paged;
+        global $paged, $wpdb;
 //        d($paged);
         // Force these args
         $args = array_merge(array(

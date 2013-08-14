@@ -5,8 +5,7 @@ if (!function_exists('oowptheme_entry_meta')) :
      * Prints HTML with meta information for current post: categories, tags, permalink, author, and date.
      *
      * Create your own oowptheme_entry_meta() to override in a child theme.
-     *
-     * @since Twenty Twelve 1.0
+     * @package templates
      */
     function oowptheme_entry_meta()
     {
@@ -25,15 +24,15 @@ if (!function_exists('oowptheme_entry_meta')) :
         // Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's name.
         if ($tag_list)
         {
-            $utility_text = __('This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.');
+            $utility_text = __('Este post foi publicado em %1$s e tagueado como %2$s em %3$s<span class="by-author"> por %4$s</span>.');
         }
         elseif ($categories_list)
         {
-            $utility_text = __('This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.');
+            $utility_text = __('Este post foi publicado em %1$s em %3$s<span class="by-author"> por %4$s</span>.');
         }
         else
         {
-            $utility_text = __('This entry was posted on %3$s<span class="by-author"> by %4$s</span>.');
+            $utility_text = __('Este post foi publicado em %3$s<span class="by-author"> por %4$s</span>.');
         }
 
         printf(
