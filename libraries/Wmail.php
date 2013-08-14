@@ -308,6 +308,8 @@ class Wmail {
         {
             // colocar os error na sessão
             $_SESSION['oowpvalidationerrors'] = $this->getErros();
+            // salva dados na sessão para repopular
+            $_SESSION['oowpformdata'] = $_POST;
             $this->error = "Campos inválidos.";
             $this->redirect();
         }
