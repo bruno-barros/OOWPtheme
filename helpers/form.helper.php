@@ -86,6 +86,8 @@ if (!function_exists('form_close'))
     {
         $_SESSION['oowpvalidationerrors'] = null;
         unset($_SESSION['oowpvalidationerrors']);
+        $_SESSION['oowpformdata'] = null;
+        unset($_SESSION['oowpformdata']);
         return "</form>" . $extra;
     }
 
@@ -292,12 +294,12 @@ if (!function_exists('set_value'))
     function set_value($field = '', $default = '')
     {
 
-        if (!isset($_POST[$field]))
+        if (!isset($_SESSION['oowpformdata'][$field]))
         {
             return $default;
         }
 
-        return form_prep($_POST[$field], $field);
+        return form_prep($_SESSION['oowpformdata'][$field], $field);
     }
 
 }
