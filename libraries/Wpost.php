@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wrapper para posts individuais
  * 
@@ -29,7 +30,7 @@ class Wpost {
     public function __construct($thePost = null)
     {
         global $post;
-        
+
         if (is_object($thePost))
         {
             $this->object = $thePost;
@@ -47,9 +48,10 @@ class Wpost {
             $this->object = $post;
         }
     }
-    
+
     /**
-     * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
+     * Pass any unknown varible calls to present{$variable} 
+     * or fall through to the injected object.
      *
      * @param  string $var
      * @return mixed
@@ -93,7 +95,7 @@ class Wpost {
     {
         return $this->post_title;
     }
-    
+
     /**
      * Retorna o nome para url
      * @return string
@@ -112,27 +114,13 @@ class Wpost {
         return get_permalink($this->ID);
     }
 
-
-    /**
-     * Imagem destacada
-     * @param type $size
-     * @param type $attr
-     * @return type
-     */
-    public function presentThumb($size = 'thumbnail', $attr = null)
-    {
-        $img = wp_get_attachment_image_src(get_post_thumbnail_id($this->ID), $size);
-
-        return $img[0];
-    }
-    
     /**
      * Conteúdo do post
      * @return string
      */
     public function presentContent()
     {
-        return $this->post_content;
+        return get_the_content();
     }
 
     /**
@@ -170,7 +158,7 @@ class Wpost {
         $parent = get_post($this->post_parent);
         return new self($parent);
     }
-    
+
     /**
      * Retorna os IDs das categorias a que o post pertence
      * @return array
@@ -179,7 +167,7 @@ class Wpost {
     {
         return wp_get_post_categories($this->ID);
     }
-    
+
     public function presentChildren()
     {
 
@@ -189,16 +177,164 @@ class Wpost {
             'orderby' => 'menu_order',
             'order' => 'ASC')
         );
-        
-        if(count($all_wp_pages->posts) > 0)
+
+        if (count($all_wp_pages->posts) > 0)
         {
             return $all_wp_pages;
         }
-        
+
         return false;
 //        return get_page_children($pageId, $this->all());
     }
 
-    
+    /**
+     * ==========================================================
+     * Sobre imagens
+     * ---------------------------------------------------------
+     */
+
+    /**
+     * Imagem destacada no tamanho 'thumbnail'
+     * @param string $size
+     * @param array $attr
+     * @return string
+     */
+    public function presentThumb()
+    {
+        return $this->thumbSize('thumbnail');
+    }
+
+    /**
+     * Retorna a imagem em destaque com o tamanho personalizado
+     * @param string $size
+     * @param array $attr
+     * @return string
+     */
+    public function thumbSize($size = 'thumbnail', $attr = null)
+    {
+        $img = wp_get_attachment_image_src(get_post_thumbnail_id($this->ID), $size);
+
+        return $img[0];
+    }
+
+    /**
+     * Retorna as galerias do post como array
+     * @return array
+     */
+    public function presentGallery()
+    {
+        return $this->gallery('thumbnail', 'array');
+    }
+
+    /**
+     * Retorna as imagens da galeria do post
+     * @param string $size
+     * @param string $format Retorna array com tags <img>
+     * @return string|array
+     */
+    public function gallery($size = 'thumbnail', $format = 'array', $limit = -1)
+    {
+        $return = array();
+        if ($images = get_posts(array(
+            'post_parent' => $this->ID,
+            'post_type' => 'attachment',
+            'numberposts' => $limit, 
+            'post_status' => null,
+            'post_mime_type' => 'image',
+            'orderby' => 'menu_order',
+            'order' => 'ASC',
+                )))
+        {
+
+            foreach ($images as $image)
+            {
+                if ($format == 'array')
+                {
+                    $return[] = wp_get_attachment_image_src($image->ID, $size, false);
+                }
+                else if ($format == 'html')
+                {
+                    $return[] = wp_get_attachment_image($image->ID, $size, false);
+                }
+            }
+            return $return;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * ====================================================
+     * Sobre o Autor
+     * ----------------------------------------------------
+     */
+
+    /**
+     * Retorna o ID do autor
+     * @return int
+     */
+    public function presentAuthorId()
+    {
+        return get_the_author_meta('ID');
+    }
+
+    /**
+     * Retorna a tag <img> com o gravatar padrão
+     * @return string
+     */
+    public function presentAvatar()
+    {
+        return $this->avatar();
+    }
+
+    /**
+     * Retorna a tag <img> com o gravatar
+     * @param int $size Tamanho
+     * @param string $default Imagem alternativa se avatar não existir
+     * @param string $alt Texto alternativo da imagem
+     * @return string
+     */
+    public function avatar($size = 96, $default = '', $alt = false)
+    {
+        return get_avatar($this->presentAuthorEmail(), $size, $default, $alt);
+    }
+
+    /**
+     * Retorna a url para posts do autor
+     * @return string
+     */
+    public function presentAuthorUrl()
+    {
+        return esc_url(get_author_posts_url($this->presentAuthorId()));
+    }
+
+    /**
+     * Retorna o nome do autor
+     * @return string
+     */
+    public function presentAuthorName()
+    {
+        return get_the_author();
+    }
+
+    /**
+     * Retorna o e-mail do autor
+     * @return string
+     */
+    public function presentAuthorEmail()
+    {
+        return get_the_author_meta('user_email');
+    }
+
+    /**
+     * Retorna a descrição do autor
+     * @return string
+     */
+    public function presentAuthorDescription()
+    {
+        return the_author_meta('description');
+    }
 
 }
