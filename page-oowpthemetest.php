@@ -18,12 +18,12 @@
 d('CLASSE PARA MANIPULAÇÃO DE PÁGINAS');
 
 $wPages = new Wcollection( array('post_type' => 'page') );
-d($wPages->count());
+echo 'Total: ' . $wPages->count() .'<br>';
 // d($query);
 while($wPages->have_posts()){
 	$wPages->the_post();
 	$p = new Wpost();
-	echo $p->title;
+	echo $p->title . " => {$p->permalink}";
 	echo '<br>';
 }
 
@@ -32,16 +32,17 @@ while($wPages->have_posts()){
  * 	Retorna coleção de posts
  * ------------------------------------------------------------------------
  */
+echo '<br><br>';
 d('RETORNA COLEÇÃO DE POSTS');
 $loopOfPosts = new Wcollection();// por padrão retorna post_type = post
-d($loopOfPosts->count());
+echo 'Total: ' . $loopOfPosts->count() .'<br>';
 if($loopOfPosts->have_posts()){
 
 	while($loopOfPosts->have_posts()){
 		$loopOfPosts->the_post();
 		$p = new Wpost($post);
 		// the_title();
-		echo $p->title;
+		echo $p->title . " => {$p->permalink}";
 		echo '<br>';
 	}
 }
@@ -53,27 +54,61 @@ if($loopOfPosts->have_posts()){
  * 	Presenter para posts e páginas
  * ------------------------------------------------------------------------
  */
+echo '<br><br>';
 d('PRESENTER PARA POSTS E PÁGINAS');
-$post = new Wpost(1);
-d($post->slug);
-d($post->title);
-d($post->permalink);
-d($post->thumb);
-d($post->category);// array
-d('Autor: ' . $post->authorName);
+$myPost = new Wpost(1);
+
+echo "Slug: {$myPost->slug} <br>";
+echo "title: {$myPost->title} <br>";
+echo "permalink: {$myPost->permalink} <br>";
+echo "thumb: {$myPost->thumb} <br>";
+echo "category name: {$myPost->category[0]->name} <br>";
+echo "category link: {$myPost->category[0]->permalink} <br>";
+echo "authorName: {$myPost->authorName} <br>";
+echo '<code><small>';
+print_r($myPost->tags[0]);// array
+echo '</small></code><br>';
+
+echo '---<br>';
+$myPage = new Wpost(2);
+echo "page title: {$myPage->title} <br>";
+echo "páginas filhas: ".count($myPage->children) ."<br>";
+echo "título da filha [0]: {$myPage->children[0]->title} <br>";
+
 
 
 /** ========================================================================
  * 	Exemplo de model personalizado
  * ------------------------------------------------------------------------
  */
+echo '<br><br>';
 d('EXEMPLO DE MODEL PERSONALIZADO');
 $exemplo = new MyPersonalPostType();
-d($exemplo->count());
+echo 'Total: ' . $exemplo->count() .'<br>';
 $oneExample = new Wpost($exemplo->posts[0]);
-d($oneExample->title);
-d($oneExample->permalink);
-d();
+echo "title: {$oneExample->title} <br>";
+echo "permalink: {$oneExample->permalink} <br>";
+
+
+/** ========================================================================
+ * 	Utilizando templates
+ * ------------------------------------------------------------------------
+ */
+echo '<br><br>';
+d('UTILIZANDO TEMPLATES');
+$tmpl = new Wtmpl();
+$tmpl->assign(array(
+	'nome' => 'João',
+	'email' => 'joao@email',
+	'mensagem' => 'Maria',
+));
+echo $tmpl->fetch("email/contato.html");
+
+$tmpl->assign(array(
+	'nome' => 'Maria',
+	'email' => 'maria@email',
+));
+echo $tmpl->fetch("email/contato.html");
 ?>
 </body>
 </html>
