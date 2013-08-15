@@ -37,7 +37,7 @@ class Wpost {
         }
         else if (is_numeric($thePost))
         {
-            $this->object = new WP_Query(array('p' => $thePost));
+            $this->object = get_post($thePost);
         }
         else if (is_string($thePost))
         {
@@ -71,6 +71,7 @@ class Wpost {
         }
         else // WP_Query
         {
+//            dd($this->object);
             return $this->object->post->$var;
         }
     }
@@ -160,31 +161,86 @@ class Wpost {
     }
 
     /**
-     * Retorna os IDs das categorias a que o post pertence
+     * Retorna array de objetos com as categorias a que o post pertence
      * @return array
      */
     public function presentCategory()
     {
-        return wp_get_post_categories($this->ID);
+        $args = array(
+            'fields' => 'all',
+            'orderby' => 'name', 
+            'order' => 'ASC'
+            );
+        $categories = wp_get_post_categories($this->ID, $args);
+        
+        if(count($categories) == 0 || !$categories)
+        {
+            return false;
+        }
+        
+        $cats = array();
+        foreach($categories as $c)
+        {
+            $c->permalink = get_category_link( $c->term_id );
+            $cats[] = $c;
+        }
+        
+        return $cats;
     }
 
+    /**
+     * Retorna páginas diretamente filhas como um array de objetos Wpost()
+     * @return \Wpost|boolean
+     */
     public function presentChildren()
     {
 
         $all_wp_pages = new WP_Query(array(
             'post_type' => 'page',
             'post_parent' => $this->ID,
+            'post_status' => 'publish',
             'orderby' => 'menu_order',
-            'order' => 'ASC')
+            'order' => 'ASC'
+            )
         );
 
+        
         if (count($all_wp_pages->posts) > 0)
         {
-            return $all_wp_pages;
+            $posts = array();
+            foreach($all_wp_pages->posts as $p)
+            {
+                $posts[] = new self($p);
+            }
+            return $posts;
         }
 
         return false;
-//        return get_page_children($pageId, $this->all());
+    }
+    
+    public function presentTags()
+    {
+        $args = array(
+            'fields' => 'all',
+            'orderby' => 'name', 
+            'order' => 'ASC'
+            );
+        $tags = wp_get_post_tags($this->ID, $args);
+        
+        if(count($tags) == 0 || !$tags)
+        {
+            return false;
+        }
+        
+        
+        $cats = array();
+        foreach($tags as $c)
+        {
+            $c->permalink = get_tag_link( $c->term_id );
+            $cats[] = $c;
+        }
+        
+        return $cats;
     }
 
     /**
