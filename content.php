@@ -58,8 +58,7 @@ $p = new Wpost();
 		else : 
 		?>
 		<div class="entry-content">
-			<?php //d($p->gallery('medium', 'html'))
-			echo implode(',', $p->gallery('medium', 'html')); ?>
+			
 			<?php // método padrão para não interferir nos hooks
 			the_content( 'Continue lendo <span class="meta-nav">&rarr;</span>' );
 			?>

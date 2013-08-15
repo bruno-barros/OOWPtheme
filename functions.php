@@ -84,11 +84,6 @@ $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
  *     Na view: io('menuPrincipal')->render();
  * ------------------------------------------------------------------------
  */
-// $menuPrincipal = new Wmenu('Menu principal', array());
-/** ========================================================================
- * 	Menu com as páginas
- * ------------------------------------------------------------------------
- */
 $menuPrincipal = new Wmenu('Principal', array(
     'container' => '',
     'menu_class' => 'nav nav-pills',
