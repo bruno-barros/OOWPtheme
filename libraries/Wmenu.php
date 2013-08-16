@@ -29,7 +29,6 @@ class Wmenu {
      */
     private $configs = array(
         'theme_location' => '',
-        'menu' => '',// identificação do menu no WP
         'container' => 'div',
         'container_class' => 'menu-header clearfix',
         'container_id' => '',
@@ -76,16 +75,12 @@ class Wmenu {
         $this->initialize($config);
     }
 
+    /**
+     * Inicializa configurações do menu.
+     * @param array $userConfig
+     */
     public function initialize($userConfig)
     {
-//        foreach ($this->configs as $key => $value)
-//        {
-//            if(isset($userConfig[$key]))
-//            {
-//                $this->configs[$key] = $userConfig[$key];
-//            }
-//        }
-        
         $this->configs = array_merge($this->configs, $userConfig);
         
         // define o ID do menu
