@@ -91,7 +91,7 @@ No <code>functions.php</code>:
 
 	// opcional
 	// configurações padrão do WP	
-	$configs = array(
+	$config = array(
         'theme_location' => '',
         'container' => 'div',
         'container_class' => 'menu-header clearfix',
@@ -111,13 +111,18 @@ No <code>functions.php</code>:
         // template para cada item que é adicionado nos "shortcodes"
         'item_template' => '<li class="%1$s"><a href="%3$s" class="%2$s">%5$s %4$s</a></li>'
     );
+
+    // cria objeto do menu
 	$menuPrincipal = new Wmenu('Menu Principal', $config);
 
 	// adicionado itens antes e depois do menu gerenciado no WP
 	// retorna: <li class="link-li"><a href="url/da/pagina" class="link-a"> <i class="icon-mail"></i> descrição link</a></li>
 	$menuPrincipal->before('url/da/pagina', 'descrição link', 'link-li', 'link-a', '<i class="icon-mail"></i>');
-	// outros métodos:
+
+	// adiciona item no final
 	$menuPrincipal->after($url = '', $label = '', $liClass = null, $aClass = null, $icon = null);
+
+	// adiciona HTML personalizado
 	$menuPrincipal->beforeRaw($data = '');
 	$menuPrincipal->afterRaw($data = '');
 
