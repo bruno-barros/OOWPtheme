@@ -20,7 +20,7 @@ Bibliotecas básicas
 - libraries/Wtmpl.php
 
 Plugins
---------------------
+-------
 Wrapper para plugins com modificações no seu funcionamento normal.
 
 - plugins/Bannerize.php
@@ -30,14 +30,40 @@ Como extender as bibliotecas básicas
 -----------------------------------
 A pasta <code>model</code> é destinada as classes que extendem as bibliotecas, como <code>Wpost</code>. Deve ser utilizado em pesquisas personalizadas e custom_post_types.
 
+	// models/MyPersonalPostType.php
+	// Classe personalizada para custom post type "depoimentos"
+	class MyPersonalPostType extends Wcollection
+	{
+	    public function __construct()
+	    {
+	        parent::__construct(array(
+	            'post_type' => 'depoimentos'
+	        ));
+	    }
+	}
+
+No template:
+
+	$myPersonalPostType = new MyPersonalPostType();
+	if($myPersonalPostType->have_posts()){
+		while($myPersonalPostType->have_posts()){
+			$myPersonalPostType->the_post();
+
+			$p = new Wpost();
+			// ...
+		}
+	} else {
+		// Não existem depoimentos.
+	}
+
 Exemplos
 ========
 
 Dentro do loop de posts
 -----------------------
 
-	while($loop->have_posts()){
-		$loop->the_post();
+	while( have_posts() ){
+		the_post();
 
 		// cria objeto do post dentro do loop
 		$p = new Wpost();
@@ -62,6 +88,7 @@ Menus personalizados
 --------------------
 Wrapper para espandir o uso de menus. Supondo que você criou um menu com o nome <code>Menu Principal</code>.
 No <code>functions.php</code>:
+
 	// opcional
 	// configurações padrão do WP	
 	$configs = array(
@@ -95,4 +122,5 @@ No <code>functions.php</code>:
 	$menuPrincipal->afterRaw($data = '');
 
 No template:
+
 	io('menuPrincipal')->render();
