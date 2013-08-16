@@ -12,8 +12,6 @@ Bibliotecas básicas
 - helpers/uri.helper.php
 
 ### Libraries
-- libraries/Mobile_Detect.php
-- libraries/Validation.php
 - libraries/Wasets.php
 - libraries/Wcollection.php
 - libraries/Wmail.php
@@ -30,7 +28,7 @@ Wrapper para plugins com modificações no seu funcionamento normal.
 
 Como extender as bibliotecas básicas
 -----------------------------------
-A pasta model é destinada as classes que extendem as bibliotecas, como Wpost(). Deve ser utilizado em pesquisas personalizadas e custom_post_types.
+A pasta <code>model</code> é destinada as classes que extendem as bibliotecas, como <code>Wpost</code>. Deve ser utilizado em pesquisas personalizadas e custom_post_types.
 
 Exemplos
 ========
@@ -41,7 +39,9 @@ Dentro do loop de posts
 	while($loop->have_posts()){
 		$loop->the_post();
 
+		// cria objeto do post dentro do loop
 		$p = new Wpost();
+
 		// link do post
 		<a href="{ $p->permalink }">{ $p->title }</a>
 
@@ -60,4 +60,39 @@ Dentro do loop de posts
 
 Menus personalizados
 --------------------
-Em breve...
+Wrapper para espandir o uso de menus. Supondo que você criou um menu com o nome <code>Menu Principal</code>.
+No <code>functions.php</code>:
+	// opcional
+	// configurações padrão do WP	
+	$configs = array(
+        'theme_location' => '',
+        'container' => 'div',
+        'container_class' => 'menu-header clearfix',
+        'container_id' => '',
+        'menu_class' => 'menu unstyled',
+        'menu_id' => '',
+        'echo' => true,
+        'fallback_cb' => 'wp_page_menu',
+        'before' => '',
+        'after' => '',
+        'link_before' => '',
+        'link_after' => '',
+        // template do menu com "shortcodes" para adicionar itens 
+        'items_wrap' => '<ul id="%1$s" class="%2$s">[BEFORE] %3$s [AFTER]</ul>',
+        'depth' => 0,
+        'walker' => '',
+        // template para cada item que é adicionado nos "shortcodes"
+        'item_template' => '<li class="%1$s"><a href="%3$s" class="%2$s">%5$s %4$s</a></li>'
+    );
+	$menuPrincipal = new Wmenu('Menu Principal', $config);
+
+	// adicionado itens antes e depois do menu gerenciado no WP
+	// retorna: <li class="link-li"><a href="url/da/pagina" class="link-a"> <i class="icon-mail"></i> descrição link</a></li>
+	$menuPrincipal->before('url/da/pagina', 'descrição link', 'link-li', 'link-a', '<i class="icon-mail"></i>');
+	// outros métodos:
+	$menuPrincipal->after($url = '', $label = '', $liClass = null, $aClass = null, $icon = null);
+	$menuPrincipal->beforeRaw($data = '');
+	$menuPrincipal->afterRaw($data = '');
+
+No template:
+	io('menuPrincipal')->render();
