@@ -26,36 +26,6 @@ Wrapper para plugins com modificações no seu funcionamento normal.
 - plugins/Bannerize.php
 
 
-Como extender as bibliotecas básicas
------------------------------------
-A pasta <code>model</code> é destinada as classes que extendem as bibliotecas, como <code>Wpost</code>. Deve ser utilizado em pesquisas personalizadas e custom_post_types.
-
-	// models/MyPersonalPostType.php
-	// Classe personalizada para custom post type "depoimentos"
-	class MyPersonalPostType extends Wcollection
-	{
-	    public function __construct()
-	    {
-	        parent::__construct(array(
-	            'post_type' => 'depoimentos'
-	        ));
-	    }
-	}
-
-No template:
-
-	$myPersonalPostType = new MyPersonalPostType();
-	if($myPersonalPostType->have_posts()){
-		while($myPersonalPostType->have_posts()){
-			$myPersonalPostType->the_post();
-
-			$p = new Wpost();
-			// ...
-		}
-	} else {
-		// Não existem depoimentos.
-	}
-
 Exemplos
 ========
 
@@ -129,3 +99,34 @@ No <code>functions.php</code>:
 No template:
 
 	io('menuPrincipal')->render();
+
+
+Como extender as bibliotecas básicas
+-----------------------------------
+A pasta <code>model</code> é destinada as classes que extendem as bibliotecas, como <code>Wpost</code>. Deve ser utilizado em pesquisas personalizadas e custom_post_types.
+
+	// models/MyPersonalPostType.php
+	// Classe personalizada para custom post type "depoimentos"
+	class MyPersonalPostType extends Wcollection
+	{
+	    public function __construct()
+	    {
+	        parent::__construct(array(
+	            'post_type' => 'depoimentos'
+	        ));
+	    }
+	}
+
+No template:
+
+	$myPersonalPostType = new MyPersonalPostType();
+	if($myPersonalPostType->have_posts()){
+		while($myPersonalPostType->have_posts()){
+			$myPersonalPostType->the_post();
+
+			$p = new Wpost();
+			// ...
+		}
+	} else {
+		// Não existem depoimentos.
+	}
