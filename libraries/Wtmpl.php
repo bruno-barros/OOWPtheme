@@ -30,6 +30,7 @@ class Wtmpl extends Template_Lite
         $this->compile_check = true;
         $this->cache = false;
         $this->cache_lifetime = 3600;
+        $this->config_overwrite = false;
         
         return $this;
         
