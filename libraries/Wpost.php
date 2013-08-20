@@ -87,6 +87,34 @@ class Wpost {
     {
         return call_user_func_array(array($this->object, $method), $arguments);
     }
+    
+    /**
+     * ==========================================================
+     * ==========================================================
+     * ==========================================================
+     * Acesso as informações do post através dos 'presenters' 
+     * e métodos personalizados
+     * ---------------------------------------------------------
+     */
+    
+    /**
+     * Retorna a hora no formato padrão definido no admin
+     * @see http://codex.wordpress.org/Function_Reference/get_the_time
+     * @return string
+     */
+    public function presentTime()
+    {
+        return esc_attr(get_the_time('', $this));
+    }
+    
+    /**
+     * Retorna a data no formato definido no admin
+     * @return type
+     */
+    public function presentDate()
+    {
+        return esc_html(mysql2date(get_option('date_format'), $this->post_date));
+    }
 
     /**
      * Retorna o título
@@ -94,7 +122,7 @@ class Wpost {
      */
     public function presentTitle()
     {
-        return $this->post_title;
+        return esc_attr($this->post_title);
     }
 
     /**
@@ -128,14 +156,15 @@ class Wpost {
      * Retorna posts relacionados... na mesma categoria
      * Excluindo próprío post
      * 
+     * @param int $limit -1 = sem limite
      * @return \WP_Query
      */
-    public function getRelated()
+    public function getRelated($limit = -1)
     {
         $args = '';
 
         $args = wp_parse_args($args, array(
-            'showposts' => -1,
+            'showposts' => $limit,
             'post__not_in' => array($this->ID),
             'ignore_sticky_posts' => 0,
             'category__in' => wp_get_post_categories($this->ID)
@@ -147,7 +176,7 @@ class Wpost {
     }
 
     /**
-     * Retorna a páginas mãe como um objeto Wpost
+     * Retorna a página mãe como um objeto Wpost
      * @return \self
      */
     public function presentParent()
@@ -162,6 +191,19 @@ class Wpost {
 
     /**
      * Retorna array de objetos com as categorias a que o post pertence
+     * stdClass Object
+        (
+            [term_id] => 4
+            [name] => Pintura
+            [slug] => pintura
+            [term_group] => 0
+            [term_taxonomy_id] => 4
+            [taxonomy] => category
+            [description] => 
+            [parent] => 3
+            [count] => 6
+            [permalink] => http://localhost/wordpress/category/arte/pintura/
+        )
      * @return array
      */
     public function presentCategory()
@@ -203,7 +245,6 @@ class Wpost {
             'order' => 'ASC'
             )
         );
-
         
         if (count($all_wp_pages->posts) > 0)
         {
@@ -218,6 +259,23 @@ class Wpost {
         return false;
     }
     
+    /**
+     * Retorna array de tags como objetos:
+     * stdClass Object
+    (
+        [term_id] => 20
+        [name] => futuro
+        [slug] => futuro
+        [term_group] => 0
+        [term_taxonomy_id] => 21
+        [taxonomy] => post_tag
+        [description] => 
+        [parent] => 0
+        [count] => 1
+        [permalink] => http://localhost/wordpress/tag/futuro/
+    )
+     * @return boolean
+     */
     public function presentTags()
     {
         $args = array(
@@ -326,6 +384,23 @@ class Wpost {
      * Sobre o Autor
      * ----------------------------------------------------
      */
+    
+    
+    /**
+     * Retorna um objeto com os dados do autor combinados
+     */
+    public function presentAuthor()
+    {
+        $a = new stdClass();
+        $a->id = $this->presentAuthorId();
+        $a->avatar = $this->presentAvatar();
+        $a->name = $this->presentAuthorName();
+        $a->email = $this->presentAuthorEmail();
+        $a->description = $this->presentAuthorDescription();
+        $a->url = $this->presentAuthorUrl();
+        
+        return $a;
+    }
 
     /**
      * Retorna o ID do autor
@@ -356,6 +431,7 @@ class Wpost {
     {
         return get_avatar($this->presentAuthorEmail(), $size, $default, $alt);
     }
+    
 
     /**
      * Retorna a url para posts do autor
