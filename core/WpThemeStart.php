@@ -21,6 +21,7 @@ $autoLoadDirectories = array(
     'models',
     'plugins',
     'core',
+    'templates',
 );
 
 function __autoload($class_name)
