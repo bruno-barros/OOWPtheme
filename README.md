@@ -51,6 +51,8 @@ Dentro do loop de posts
 
 		// link do autor
 		<a href="{ $p->authorUrl }">{ $p->authorName }</a>
+		// ou
+		<a href="{ $p->author->url }">{ $p->author->name }</a>
 
 	}
 
