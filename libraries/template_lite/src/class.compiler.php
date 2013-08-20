@@ -317,7 +317,7 @@ class Template_Lite_Compiler extends Template_Lite {
 					$_args['value'] = $this->_dequote($_args['item']);
 				}
 				isset($_args['key']) ? $_args['key'] = "\$this->_vars['".$this->_dequote($_args['key'])."'] => " : $_args['key'] = '';
-				$_result = '<?php if (count((array)' . $_args['from'] . ')): foreach ((array)' . $_args['from'] . ' as ' . $_args['key'] . '$this->_vars[\'' . $_args['value'] . '\']): ?>';
+				$_result = '<?php if (count((array)' . $this->objectToArray($_args['from']) . ')): foreach ((array)' . $this->objectToArray($_args['from']) . ' as ' . $_args['key'] . '$this->_vars[\'' . $_args['value'] . '\']): ?>';
 				return $_result;
 				break;
 			case 'foreachelse':
@@ -485,6 +485,28 @@ class Template_Lite_Compiler extends Template_Lite {
 					$this->trigger_error($function." function does not exist", E_USER_ERROR, __FILE__, __LINE__);
 				}
 				break;
+		}
+	}
+        
+        function objectToArray($d) {
+
+		if (is_object($d)) {
+			// Gets the properties of the given object
+			// with get_object_vars function
+			$d = get_object_vars($d);
+		}
+ 
+		if (is_array($d)) {
+			/*
+			* Return array converted to object
+			* Using __FUNCTION__ (Magic constant)
+			* for recursive call
+			*/
+			return array_map(__FUNCTION__, $d);
+		}
+		else {
+			// Return array
+			return $d;
 		}
 	}
 
