@@ -7,6 +7,7 @@
  * @since Twenty Twelve 1.0
  */
 $p = new Wpost();
+// d($p->date);
 ?>
 
 	<article id="post-<?php echo $p->ID; ?>" <?php post_class(); ?>>
@@ -71,7 +72,45 @@ $p = new Wpost();
 		<footer class="entry-meta">
 
 			<?php // @see templates/entry-meta.php
-			oowptheme_entry_meta(); 
+		
+			d(object_to_array($p->category));
+			d(array(array(
+					'term_id' => 6, 
+					'name' => 'Nome da categoria', 
+					'slug' => 'cultura',
+					'term_group' => 'cultura',
+					'term_taxonomy_id' => 'cultura',
+					'taxonomy' => 'cultura',
+					'description' => 'cultura',
+					'parent' => 'cultura',
+					'count' => 'cultura',
+					'permalink' => 'http://localhost/wordpress/category/cultura/'
+					)));
+			
+			oowptheme_entry_meta();
+
+			$entryMeta = new Wtmpl();
+			$entryMeta->assign(array(
+				'post' => $p,
+				'time' => $p->time,
+				'date' => $p->date,
+
+				'category' => array(array(
+					'term_id' => 6, 
+					'name' => 'Nome da categoria', 
+					'slug' => 'cultura',
+					'term_group' => 'cultura',
+					'term_taxonomy_id' => 'cultura',
+					'taxonomy' => 'cultura',
+					'description' => 'cultura',
+					'parent' => 'cultura',
+					'count' => 'cultura',
+					'permalink' => 'http://localhost/wordpress/category/cultura/'
+					)),
+				// 'category' => object_to_array($p->category),
+				'author' => $p->author
+			));
+			$entryMeta->display('post/entry-meta.html');
 			?>
 
 			<?php // link para edição do post
