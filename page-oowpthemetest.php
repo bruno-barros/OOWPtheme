@@ -58,6 +58,8 @@ echo '<br><br>';
 d('PRESENTER PARA POSTS E PÁGINAS');
 $myPost = new Wpost(1);
 
+
+echo "Data: {$myPost->date} <br>";
 echo "Slug: {$myPost->slug} <br>";
 echo "title: {$myPost->title} <br>";
 echo "permalink: {$myPost->permalink} <br>";
@@ -65,9 +67,9 @@ echo "thumb: {$myPost->thumb} <br>";
 echo "category name: {$myPost->category[0]->name} <br>";
 echo "category link: {$myPost->category[0]->permalink} <br>";
 echo "authorName: {$myPost->authorName} <br>";
-echo '<code><small>';
+echo '<small><pre>';
 print_r($myPost->tags[0]);// array
-echo '</small></code><br>';
+echo '</pre></small><br>';
 
 echo '---<br>';
 $myPage = new Wpost(2);
