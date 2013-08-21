@@ -26,6 +26,12 @@
 class Wpost {
 
     protected $object;
+    
+    /**
+     * Métodos do tipo presenter que serão retornados no ->toArray()
+     * @var array
+     */
+    protected $toArray = array('Time', 'Date', 'Title', 'Slug', 'Permalink', 'Thumb');
 
     public function __construct($thePost = null)
     {
@@ -71,7 +77,6 @@ class Wpost {
         }
         else // WP_Query
         {
-//            dd($this->object);
             return $this->object->post->$var;
         }
     }
@@ -88,6 +93,29 @@ class Wpost {
         return call_user_func_array(array($this->object, $method), $arguments);
     }
     
+    /**
+     * Retorna o post como array
+     * @return array
+     */
+    public function toArray()
+    {
+        $methods = get_class_methods($this);
+        $objArray = array();
+
+        foreach($methods as $m)
+        {            
+            $part = str_replace('present', '', $m);
+            
+            if(in_array($part, $this->toArray))
+            {
+                $objArray[lower($part)] = $this->$m();
+            }
+        }
+        
+        return $objArray;
+    }
+
+
     /**
      * ==========================================================
      * ==========================================================
