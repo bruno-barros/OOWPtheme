@@ -1,0 +1,38 @@
+<br>
+<br>
+<div class="entry-meta">
+
+	Este post foi publicado em <a href="{ $post.permalink }" title="{ $post.time }" rel="bookmark">
+	<time class="entry-date">{ $post.date }</time></a>
+
+	
+	{ if $category } 
+		na categoria 
+	{ /if }
+
+	<?php $i = 0; ?>
+	{ foreach value=cat from=$category }
+	
+		<a href="{ $cat.permalink }">{ $cat.name }</a><?php 
+		if($i < count($this->_vars['category']) - 1) echo ', ';
+		$i++; 
+		?>
+	{ /foreach }
+	
+	{ if $tags } 
+		com as tags
+	{ /if }
+
+	<?php $i = 0; ?>
+	{ foreach value=tag from=$tags }
+		<a href="{ $tag.permalink }">{ $tag.name }</a><?php 
+		if($i < count($this->_vars['tags']) - 1) echo ', ';
+		$i++; 
+		?>
+	{ /foreach }
+
+	<span class="author vcard">
+		 por <a class="url fn n" href="{ $author.url }" title="{ $author.name }" rel="author">{ $author.name }</a>
+	</span>
+
+</div>
