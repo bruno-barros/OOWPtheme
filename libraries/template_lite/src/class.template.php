@@ -32,25 +32,25 @@ if (!defined('TEMPLATE_LITE_DIR'))
 
 function objectToArray($d) {
 
-		if (is_object($d)) {
-			// Gets the properties of the given object
-			// with get_object_vars function
-			$d = get_object_vars($d);
-		}
- 
-		if (is_array($d)) {
-			/*
-			* Return array converted to object
-			* Using __FUNCTION__ (Magic constant)
-			* for recursive call
-			*/
-			return array_map(__FUNCTION__, $d);
-		}
-		else {
-			// Return array
-			return $d;
-		}
-	}
+        if (is_object($d)) {
+                // Gets the properties of the given object
+                // with get_object_vars function
+                $d = get_object_vars($d);
+        } 
+
+        if (is_array($d)) {
+                /*
+                * Return array converted to object
+                * Using __FUNCTION__ (Magic constant)
+                * for recursive call
+                */
+                return array_map(__FUNCTION__, $d);
+        }
+        else {
+                // Return array
+                return $d;
+        }
+}
 
 class Template_Lite {
 
@@ -146,12 +146,13 @@ class Template_Lite {
                 if ($var != "")
                 {
                     // se o valor for objeto, converte para array
-                    if (is_object($val))
+                    if (is_object($val) || (isset($val[0]) && is_object($val[0])) ) 
                     {
                         $val = objectToArray($val);
                     }
 //                    echo '<pre>';
-//                    var_dump(objectToArray($val));
+//                    var_dump($var);
+//                    var_dump($val);
 //                    exit;
                     $this->_vars[$var] = $val;
                 }
