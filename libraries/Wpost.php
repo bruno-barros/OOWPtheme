@@ -26,7 +26,7 @@
 class Wpost {
 
     protected $object;
-    
+
     /**
      * Métodos do tipo presenter que serão retornados no ->toArray()
      * @var array
@@ -92,7 +92,7 @@ class Wpost {
     {
         return call_user_func_array(array($this->object, $method), $arguments);
     }
-    
+
     /**
      * Retorna o post como array
      * @return array
@@ -102,19 +102,18 @@ class Wpost {
         $methods = get_class_methods($this);
         $objArray = array();
 
-        foreach($methods as $m)
-        {            
+        foreach ($methods as $m)
+        {
             $part = str_replace('present', '', $m);
-            
-            if(in_array($part, $this->toArray))
+
+            if (in_array($part, $this->toArray))
             {
                 $objArray[lower($part)] = $this->$m();
             }
         }
-        
+
         return $objArray;
     }
-
 
     /**
      * ==========================================================
@@ -124,7 +123,7 @@ class Wpost {
      * e métodos personalizados
      * ---------------------------------------------------------
      */
-    
+
     /**
      * Retorna a hora no formato padrão definido no admin
      * @see http://codex.wordpress.org/Function_Reference/get_the_time
@@ -134,7 +133,7 @@ class Wpost {
     {
         return esc_attr(get_the_time('', $this));
     }
-    
+
     /**
      * Retorna a data no formato definido no admin
      * @return type
@@ -220,41 +219,41 @@ class Wpost {
     /**
      * Retorna array de objetos com as categorias a que o post pertence
      * stdClass Object
-        (
-            [term_id] => 4
-            [name] => Pintura
-            [slug] => pintura
-            [term_group] => 0
-            [term_taxonomy_id] => 4
-            [taxonomy] => category
-            [description] => 
-            [parent] => 3
-            [count] => 6
-            [permalink] => http://localhost/wordpress/category/arte/pintura/
-        )
+      (
+      [term_id] => 4
+      [name] => Pintura
+      [slug] => pintura
+      [term_group] => 0
+      [term_taxonomy_id] => 4
+      [taxonomy] => category
+      [description] =>
+      [parent] => 3
+      [count] => 6
+      [permalink] => http://localhost/wordpress/category/arte/pintura/
+      )
      * @return array
      */
     public function presentCategory()
     {
         $args = array(
             'fields' => 'all',
-            'orderby' => 'name', 
+            'orderby' => 'name',
             'order' => 'ASC'
-            );
+        );
         $categories = wp_get_post_categories($this->ID, $args);
-        
-        if(count($categories) == 0 || !$categories)
+
+        if (count($categories) == 0 || !$categories)
         {
             return false;
         }
-        
+
         $cats = array();
-        foreach($categories as $c)
+        foreach ($categories as $c)
         {
-            $c->permalink = get_category_link( $c->term_id );
+            $c->permalink = get_category_link($c->term_id);
             $cats[] = $c;
         }
-        
+
         return $cats;
     }
 
@@ -271,13 +270,13 @@ class Wpost {
             'post_status' => 'publish',
             'orderby' => 'menu_order',
             'order' => 'ASC'
-            )
+                )
         );
-        
+
         if (count($all_wp_pages->posts) > 0)
         {
             $posts = array();
-            foreach($all_wp_pages->posts as $p)
+            foreach ($all_wp_pages->posts as $p)
             {
                 $posts[] = new self($p);
             }
@@ -286,46 +285,46 @@ class Wpost {
 
         return false;
     }
-    
+
     /**
      * Retorna array de tags como objetos:
      * stdClass Object
-    (
-        [term_id] => 20
-        [name] => futuro
-        [slug] => futuro
-        [term_group] => 0
-        [term_taxonomy_id] => 21
-        [taxonomy] => post_tag
-        [description] => 
-        [parent] => 0
-        [count] => 1
-        [permalink] => http://localhost/wordpress/tag/futuro/
-    )
+      (
+      [term_id] => 20
+      [name] => futuro
+      [slug] => futuro
+      [term_group] => 0
+      [term_taxonomy_id] => 21
+      [taxonomy] => post_tag
+      [description] =>
+      [parent] => 0
+      [count] => 1
+      [permalink] => http://localhost/wordpress/tag/futuro/
+      )
      * @return boolean
      */
     public function presentTags()
     {
         $args = array(
             'fields' => 'all',
-            'orderby' => 'name', 
+            'orderby' => 'name',
             'order' => 'ASC'
-            );
+        );
         $tags = wp_get_post_tags($this->ID, $args);
-        
-        if(count($tags) == 0 || !$tags)
+
+        if (count($tags) == 0 || !$tags)
         {
             return false;
         }
-        
-        
+
+
         $cats = array();
-        foreach($tags as $c)
+        foreach ($tags as $c)
         {
-            $c->permalink = get_tag_link( $c->term_id );
+            $c->permalink = get_tag_link($c->term_id);
             $cats[] = $c;
         }
-        
+
         return $cats;
     }
 
@@ -370,6 +369,14 @@ class Wpost {
 
     /**
      * Retorna as imagens da galeria do post
+     * Formato:
+     * array(5) {
+        ['url']=> "http://localhost/wordpress/wp-content/uploads/DSC02435-150x150.jpg"
+        ['width']=> 150
+        ['height']=> 150
+        ['resized']=> true // true if $url is a resized image, false if it is the original.
+        ["title"]=> "Título da imagem"
+       }
      * @param string $size
      * @param string $format Retorna array com tags <img>
      * @return string|array
@@ -380,7 +387,7 @@ class Wpost {
         if ($images = get_posts(array(
             'post_parent' => $this->ID,
             'post_type' => 'attachment',
-            'numberposts' => $limit, 
+            'numberposts' => $limit,
             'post_status' => null,
             'post_mime_type' => 'image',
             'orderby' => 'menu_order',
@@ -392,7 +399,14 @@ class Wpost {
             {
                 if ($format == 'array')
                 {
-                    $return[] = wp_get_attachment_image_src($image->ID, $size, false);
+                    $img = wp_get_attachment_image_src($image->ID, $size, false);
+                    $i = array();
+                    $i['url'] = $img[0];
+                    $i['width'] = $img[1];
+                    $i['height'] = $img[2];
+                    $i['resized'] = $img[3];
+                    $i['title'] = $image->post_title;
+                    $return[] = $i;
                 }
                 else if ($format == 'html')
                 {
@@ -412,8 +426,7 @@ class Wpost {
      * Sobre o Autor
      * ----------------------------------------------------
      */
-    
-    
+
     /**
      * Retorna um objeto com os dados do autor combinados
      */
@@ -426,7 +439,7 @@ class Wpost {
         $a->email = $this->presentAuthorEmail();
         $a->description = $this->presentAuthorDescription();
         $a->url = $this->presentAuthorUrl();
-        
+
         return $a;
     }
 
@@ -459,7 +472,6 @@ class Wpost {
     {
         return get_avatar($this->presentAuthorEmail(), $size, $default, $alt);
     }
-    
 
     /**
      * Retorna a url para posts do autor
