@@ -64,9 +64,9 @@ class Wmenu {
      */
     private $menuId = '';
 
-    public function __construct($menu = null, $config = null)
+    public function __construct($menu = null, $config = array())
     {
-        if(is_array($menu) && $config === null)
+        if(is_array($menu) && empty($config))
         {
             $config = $menu;
             $menu = '';
