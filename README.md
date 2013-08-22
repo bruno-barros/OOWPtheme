@@ -12,12 +12,12 @@ Bibliotecas básicas
 - helpers/uri.helper.php
 
 ### Libraries
-- libraries/Wasets.php
-- libraries/Wcollection.php
-- libraries/Wmail.php
-- libraries/Wmenu.php
-- libraries/Wpost.php
-- libraries/Wtmpl.php
+- libraries/Wassets.php // gerenciamento de JS e CSS
+- libraries/Wcollection.php // manipulação de coleções (custom post type)
+- libraries/Wmail.php // validação e envio de formulários com autenticação
+- libraries/Wmenu.php // manipulação de menus
+- libraries/Wpost.php // manipulação de posts e páginas
+- libraries/Wtmpl.php // gerenciamento de templates para pequenas partes
 
 Plugins
 -------
@@ -101,6 +101,57 @@ No <code>functions.php</code>:
 No template:
 
 	io('menuPrincipal')->render();
+
+
+Usando partes de templates
+--------------------------
+
+No looping:
+	
+	$p = new Wpost();
+
+	// instancia lib
+	$entryMeta = new Wtmpl();
+
+	// cria variáveis no template
+	$entryMeta->assign(array(
+		'category' => $p->category,
+		'tags' => $p->tags,
+		'post' => $p->toArray(),
+		'author' => $p->author
+	));
+
+	// renderiza, faz cache e exibe
+	$entryMeta->display('post/entry-meta.html');
+
+No template: 'templates/post/entry-meta.html'
+
+	<div class="entry-meta">
+
+		Este post foi publicado em <a href="{ $post.permalink }" title="{ $post.time }" rel="bookmark">
+		<time class="entry-date">{ $post.date }</time></a>
+		
+		{ if $category } 
+			na categoria 
+		{ /if }
+
+		{ foreach value=cat from=$category }		
+			<a href="{ $cat.permalink }">{ $cat.name }</a>
+		{ /foreach }
+		
+		{ if $tags } 
+			com as tags
+		{ /if }
+
+		{ foreach value=tag from=$tags }
+			<a href="{ $tag.permalink }">{ $tag.name }</a>
+		{ /foreach }
+
+		<span class="author vcard">
+			 por <a class="url fn n" href="{ $author.url }" title="{ $author.name }" rel="author">{ $author.name }</a>
+		</span>
+
+	</div>
 
 
 Como extender as bibliotecas básicas
