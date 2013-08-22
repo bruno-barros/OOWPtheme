@@ -106,7 +106,7 @@ No template:
 Usando partes de templates
 --------------------------
 
-No looping:
+No looping (PHP):
 	
 	$p = new Wpost();
 
@@ -124,7 +124,7 @@ No looping:
 	// renderiza, faz cache e exibe
 	$entryMeta->display('post/entry-meta.html');
 
-No template: 'templates/post/entry-meta.html'
+No template: 'templates/post/entry-meta.html' (Só HTML ;-P)
 
 	<div class="entry-meta">
 
