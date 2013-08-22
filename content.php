@@ -7,7 +7,6 @@
  * @since Twenty Twelve 1.0
  */
 $p = new Wpost();
-// d($p->date);
 ?>
 
 	<article id="post-<?php echo $p->ID; ?>" <?php post_class(); ?>>
