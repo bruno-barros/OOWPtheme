@@ -31,7 +31,7 @@ class Wpost {
      * Métodos do tipo presenter que serão retornados no ->toArray()
      * @var array
      */
-    protected $toArray = array('Time', 'Date', 'Title', 'Slug', 'Permalink', 'Thumb');
+    protected $toArray = array('Time', 'Date', 'DateUrl', 'Title', 'Slug', 'Permalink', 'Thumb');
 
     public function __construct($thePost = null)
     {
