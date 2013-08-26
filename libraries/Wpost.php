@@ -131,7 +131,7 @@ class Wpost {
      */
     public function presentTime()
     {
-        return esc_attr(get_the_time('', $this));
+        return esc_attr(get_the_time('', $this->ID));
     }
 
     /**
@@ -141,6 +141,15 @@ class Wpost {
     public function presentDate()
     {
         return esc_html(mysql2date(get_option('date_format'), $this->post_date));
+    }
+
+    /**
+     * Retorna a url do post para listagem de posts do mesmo mês e ano
+     * @return [type] [description]
+     */
+    public function presentDateUrl()
+    {
+        return get_month_link(get_the_time('Y', $this->ID), get_the_time('m', $this->ID));
     }
 
     /**
@@ -285,6 +294,96 @@ class Wpost {
 
         return false;
     }
+
+    /**
+     * Presenter que retorna breadcrumb como array e nome da página inicial "Início"
+     * @see  breadcrumb()
+     * @return array
+     */
+    public function presentBreadcrumb()
+    {
+        return $this->breadcrumb('Início');
+    }
+
+    /**
+     * Retorna o breadcrumb do post ou página
+     * @param  boolean|string $overWriteHome Nome da página inicial
+     * @return array                 Array com 'title' e 'url' das páginas
+     */
+    public function breadcrumb($overWriteHome = false) {
+
+        $b = array();
+
+        if (!is_front_page()) 
+        {
+            $b[] = array(
+                'title' => ($overWriteHome) ? $overWriteHome : get_bloginfo('name'),
+                'url' => get_option('home')
+            );
+
+            if ( is_category() || is_single() ) 
+            {
+                $b[] = array(
+                    'title' => get_the_category(', '),
+                    'url' => false
+                );
+
+                if ( is_single() ) 
+                {
+                    $b[] = array(
+                        'title' => get_the_title(),
+                        'url' => false
+                    );
+                }
+
+            } 
+            elseif ( is_page() && $this->post_parent ) 
+            {
+                $home = get_page_by_title('home');
+
+                for ($i = count($this->ancestors)-1; $i >= 0; $i--) 
+                {
+                    if (($home->ID) != ($this->ancestors[$i])) 
+                    {
+                        $b[] = array(
+                            'title' => get_the_title($this->ancestors[$i]),
+                            'url' => get_permalink($this->ancestors[$i])
+                        );
+                    }
+                }
+
+                $b[] = array(
+                    'title' => get_the_title(),
+                    'url' => false
+                );
+
+            } 
+            elseif (is_page())
+            {
+                $b[] = array(
+                    'title' => get_the_title(),
+                    'url' => false
+                );
+            } 
+            elseif (is_404())
+            {
+                $b[] = array(
+                    'title' => "404",
+                    'url' => false
+                );
+                // echo "404";
+            }
+        } 
+        else 
+        {
+            $b[] = array(
+                'title' => ($overWriteHome) ? $overWriteHome : get_bloginfo('name'),
+                'url' => false
+            );
+        }
+        return $b;
+    }
+
 
     /**
      * Retorna array de tags como objetos:
