@@ -41,17 +41,24 @@ get_header();
 
 			<div id="main" class="span9 site-content" role="main">
 
+            <?php 
+            // setup $post
+            the_post();
 
-			<?php 
-			/*
-			|=================================================================================
-			|	Se existe página
-			|---------------------------------------------------------------------------------
-			*/
-			$page = new Wpost();
+            /** ========================================================================
+             *     Breadcrumb
+             * ------------------------------------------------------------------------
+             */
+            $p = new Wpost($post);
+            $tmplBreadcrumb = new Wtmpl();
+            $tmplBreadcrumb->assign(array(
+                'breadcrumb' => $p->breadcrumb
+            ));
+            $tmplBreadcrumb->display('breadcrumb.html');
+
 			?>
-			<h1 class="page-title"><?php echo $page->title ?></h1>
-			<?php echo $page->content?>
+			<h1 class="page-title"><?php echo $p->title ?></h1>
+			<?php echo $p->content; ?>
 
 			<br>
 			<br>

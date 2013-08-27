@@ -15,20 +15,26 @@ get_header();
 		<div class="row">
 
 		<div id="main" class="span9 site-content" role="main">
-			
 
-		<?php 
-		/*
-		|=================================================================================
-		|	Se existem posts...
-		|---------------------------------------------------------------------------------
-		*/
-		if ( have_posts() ) : 
-		/*
-		|=================================================================================
-		|	Looping pelos posts
-		|---------------------------------------------------------------------------------
-		*/
+		<?php
+		/** ========================================================================
+	     *     Breadcrumb
+	     * ------------------------------------------------------------------------
+	     */
+	    if( is_single() || is_page() || is_archive() || is_date() ):
+	    	$p = new Wpost();
+			$tmplBreadcrumb = new Wtmpl();
+			$tmplBreadcrumb->assign(array(
+				'breadcrumb' => $p->breadcrumb
+			));
+			$tmplBreadcrumb->display('breadcrumb.html');
+		endif;
+
+		if ( have_posts() ) :
+		/** ========================================================================
+		 * 	Looping pelos posts
+		 * ------------------------------------------------------------------------
+		 */
 		while ( have_posts() ) : the_post(); 		
 			
 			get_template_part( 'content', get_post_format() );

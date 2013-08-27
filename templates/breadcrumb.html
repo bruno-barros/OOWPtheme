@@ -1,0 +1,16 @@
+<ul class="breadcrumb">
+
+{ foreach value=b from=$breadcrumb}
+	
+	{ if $b.url !== false}
+		<li><a href="{ $b.url }">{ $b.title }</a> <span class="divider">/</span></li>
+	{ /if }
+
+	{ if $b.url === false}
+		<li class="active">{ $b.title }</li>
+	{ /if }
+
+{ /foreach }
+
+
+</ul>

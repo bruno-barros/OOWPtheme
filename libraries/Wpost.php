@@ -136,7 +136,7 @@ class Wpost {
 
     /**
      * Retorna a data no formato definido no admin
-     * @return type
+     * @return string
      */
     public function presentDate()
     {
@@ -144,8 +144,8 @@ class Wpost {
     }
 
     /**
-     * Retorna a url do post para listagem de posts do mesmo mês e ano
-     * @return [type] [description]
+     * Retorna a url para listagem de posts do mesmo mês e ano
+     * @return string
      */
     public function presentDateUrl()
     {
@@ -323,37 +323,46 @@ class Wpost {
 
             if ( is_category() || is_single() ) 
             {
-                $b[] = array(
-                    'title' => get_the_category(', '),
-                    'url' => false
-                );
+                if($this->category)
+                {
+                    foreach($this->category as $c)
+                    {
+                        $b[] = array(
+                            'title' => $c->name,
+                            'url' => $c->permalink
+                        );
+                    }
+                }                
 
                 if ( is_single() ) 
                 {
                     $b[] = array(
-                        'title' => get_the_title(),
+                        'title' => $this->title,
                         'url' => false
                     );
                 }
 
             } 
+            elseif( is_date() )
+            {
+                $b[] = array(
+                        'title' => get_the_time('F \d\e Y'),
+                        'url' => false
+                    );
+            }
             elseif ( is_page() && $this->post_parent ) 
             {
-                $home = get_page_by_title('home');
-
                 for ($i = count($this->ancestors)-1; $i >= 0; $i--) 
                 {
-                    if (($home->ID) != ($this->ancestors[$i])) 
-                    {
-                        $b[] = array(
-                            'title' => get_the_title($this->ancestors[$i]),
-                            'url' => get_permalink($this->ancestors[$i])
-                        );
-                    }
+                    $b[] = array(
+                        'id' => $this->ancestors[$i],
+                        'title' => get_the_title($this->ancestors[$i]),
+                        'url' => get_permalink($this->ancestors[$i])
+                    );
                 }
 
                 $b[] = array(
-                    'title' => get_the_title(),
+                    'title' => $this->title,
                     'url' => false
                 );
 
@@ -361,7 +370,7 @@ class Wpost {
             elseif (is_page())
             {
                 $b[] = array(
-                    'title' => get_the_title(),
+                    'title' => $this->title,
                     'url' => false
                 );
             } 
@@ -371,7 +380,6 @@ class Wpost {
                     'title' => "404",
                     'url' => false
                 );
-                // echo "404";
             }
         } 
         else 
