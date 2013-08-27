@@ -613,7 +613,7 @@ class Wpost {
      */
     public function presentAuthorDescription()
     {
-        return the_author_meta('description');
+        return get_the_author_meta('description');
     }
 
 }
