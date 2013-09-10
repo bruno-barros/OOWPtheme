@@ -296,6 +296,16 @@ class Wpost {
     }
 
     /**
+     * Retorna objeto com dados do post type
+     * @link http://codex.wordpress.org/Function_Reference/get_post_type_object
+     * @return object
+     */
+    public function presentPostType()
+    {
+        return get_post_type_object(get_post_type( $this ));
+    }
+
+    /**
      * Presenter que retorna breadcrumb como array e nome da página inicial "Início"
      * @see  breadcrumb()
      * @return array
