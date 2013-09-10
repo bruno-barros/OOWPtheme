@@ -98,26 +98,42 @@ function oowptheme_header_actions()
 {
     if (is_home())
     {
-//        io('assets')->add('flexslider', 'jquery.flexslider.min.js', 'jquery');        
+       //io('assets')->add('personalslider', 'personalslider.js', 'jquery');        
     }
-    else if (is_page('fale-conosco'))
+    else if (is_page('contato'))
     {
-//        io('assets')->add('minimalect', 'minimalect/jquery.minimalect.min.js', 'jquery');
-//        io('assets')->add('validate', 'jquery.validate.min.js', 'jquery');
+       //io('assets')->add('validate', 'jquery.validate.min.js', 'jquery');
     }
 }
-
 add_action('get_header', 'oowptheme_header_actions');
 
 
+/**
+ * ========================================================================
+ *     Altera o comportamento das queries principais
+ *     @link http://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
+ * ------------------------------------------------------------------------
+ */
+function oowptheme_special_filters($query)
+{
+  if ( !is_admin() && $query->is_main_query() )
+  {
+    // adiciona custom post types na busca
+    if ($query->is_search)
+    {
+      $query->set('post_type', array('post', 'movies'));
+    }
+  }
+}
+add_action('pre_get_posts','oowptheme_special_filters');
+
+
 /** ========================================================================
- *     Post support
- *     Adiciona funcionalidades, como imagem destacada
+ *     Configurações e personalizações
  *     @link http://codex.wordpress.org/add_theme_support
  * ------------------------------------------------------------------------
  */
-add_theme_support('post-thumbnails');
-
+require config_folder('post-thumbnail.php');
 
 /** ========================================================================
  *    Registra widgets e sidebars
@@ -157,7 +173,7 @@ require config_folder('admin-config.php');
  * @link http://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants
  * 
 define('FS_METHOD', 'ftpext');
-define('FTP_BASE', '/var/www/vhosts/chriscoyier.net/httpdocs/');
+define('FTP_BASE', '/var/www/vhosts/username/httpdocs/');
 define('FTP_USER', 'username');
 define('FTP_PASS', 'password');
 define('FTP_HOST', 'host');
