@@ -302,7 +302,7 @@ class Wpost {
      */
     public function presentPostType()
     {
-        return get_post_type_object(get_post_type( $this ));
+        return get_post_type_object(get_post_type( $this->ID ));
     }
 
     /**
