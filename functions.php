@@ -66,7 +66,7 @@ require_once TEMPLATEPATH . '/core/WpThemeStart.php';
  * =======================================================================
  *  Assets
  * -----------------------------------------------------------------------
- * Classe para insejeção de scripts
+ * Classe para injeção de scripts
  * -----------------------------------------------------------------------
  */
 $assets = new Wassets();
