@@ -58,7 +58,7 @@ Dentro do loop de posts
 
 Menus personalizados
 --------------------
-Wrapper para espandir o uso de menus. Supondo que você criou um menu com o nome <code>Menu Principal</code>.
+Wrapper para expandir o uso de menus. Supondo que você criou um menu com o nome <code>Menu Principal</code>.
 No <code>functions.php</code>:
 
 	// opcional
