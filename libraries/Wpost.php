@@ -625,5 +625,17 @@ class Wpost {
     {
         return get_the_author_meta('description');
     }
+    
+    /**
+     * Retorna o meta dado com a chave passada como argumento
+     * @param  string  $metaKey Chave do metadado
+     * @param  boolean $single  Se retorna um array de valores, ou string punica
+     * @return mixed
+     */
+    public function getMeta($metaKey = '', $single = true)
+    {
+        $meta_values = get_post_meta( $this->ID, $metaKey, $single );
+        return $meta_values;
+    }
 
 }
