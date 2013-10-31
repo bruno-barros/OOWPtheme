@@ -53,6 +53,16 @@ class Wpost {
         {
             $this->object = $post;
         }
+        
+        /*
+        @link https://codex.wordpress.org/Function_Reference/setup_postdata
+        Sets up global post data. Helps to format custom query results for using Template tags.
+        setup_postdata() fills the global variables $id, $authordata, $currentday, $currentmonth, 
+        $page, $pages, $multipage, $more, $numpages, which help many Template Tags work in the 
+        current post context. It does not assign the global $post variable, but seems to expect 
+        that its argument is a reference to it.
+         */
+        setup_postdata( $this->object );
     }
 
     /**
