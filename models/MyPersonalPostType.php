@@ -10,10 +10,12 @@
  */
 class MyPersonalPostType extends Wcollection
 {
-    public function __construct()
+    public function __construct($args = array())
     {
-        parent::__construct(array(
-            'post_type' => 'depoimentos'
-        ));
+        parent::__construct(
+            array_merge(array(
+            	'post_type' => 'my-personal-post-type'
+        	), $args)
+        );
     }
 }
