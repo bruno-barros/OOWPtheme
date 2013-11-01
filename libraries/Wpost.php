@@ -188,6 +188,15 @@ class Wpost {
     {
         return get_permalink($this->ID);
     }
+    
+    /**
+     * Retorna o resumo do post
+     * @return string
+     */
+    public function presentExcerpt()
+    {
+        return get_the_excerpt();
+    }
 
     /**
      * Conteúdo do post
