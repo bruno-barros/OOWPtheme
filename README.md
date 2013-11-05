@@ -10,6 +10,7 @@ Bibliotecas básicas
 - helpers/form.helper.php
 - helpers/str.helper.php
 - helpers/uri.helper.php
+- helpers/template.helper.php
 
 ### Libraries
 - libraries/Wassets.php // gerenciamento de JS e CSS
