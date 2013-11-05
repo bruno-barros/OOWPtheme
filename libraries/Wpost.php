@@ -204,7 +204,10 @@ class Wpost {
      */
     public function presentContent()
     {
-        return get_the_content();
+        // aplica filtros
+        $content = apply_filters('the_content', get_the_content());
+        $content = str_replace(']]>', ']]&gt;', $content);
+        return $content;
     }
 
     /**
