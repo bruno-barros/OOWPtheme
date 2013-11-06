@@ -11,9 +11,14 @@
  */
 if(! function_exists('oowp_pagination'))
 {
-	function oowp_pagination()
+	function oowp_pagination($options = array())
 	{
 		global $wp_query, $wp_rewrite;
+		
+		// default options
+		$opt = array_merge(array(
+			'container_class' => 'pagination'
+		), $options);
 
 		//use the query for paging
         $wp_query->query_vars[ 'paged' ] > 1 ? $current = $wp_query->query_vars[ 'paged' ] : $current = 1;
@@ -41,6 +46,6 @@ if(! function_exists('oowp_pagination'))
             $pagination[ 'add_args' ] = array( 's' => get_query_var( 's' ) );        	
         }
 
-        return '<div class="pagination">' . paginate_links($pagination) . '</div>';
+        return "<div class=\"{$opt['container_class']}\">" . paginate_links($pagination) . "</div>";
 	}
 }
