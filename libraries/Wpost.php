@@ -265,6 +265,28 @@ class Wpost {
      * @return array
      */
     public function presentCategory()
+    {        
+        // posts regulares 
+        if($this->object->post_type === 'post' || $this->object->post_type === 'page')
+        {
+            $categories = $this->getRegularCategories();
+        }
+        // é custom post type
+        else 
+        {
+            $categories = $this->getTerms();
+        }
+
+        return $categories;
+        
+    }
+
+    /**
+     * Retorna um array de objetos das categorias de posts regulares como "post" e "page"
+     * @see  presentCategory()
+     * @return array
+     */
+    public function getRegularCategories()
     {
         $args = array(
             'fields' => 'all',
@@ -285,6 +307,34 @@ class Wpost {
             $cats[] = $c;
         }
 
+        return $cats;
+    }
+
+    /**
+     * @todo
+     * Retorna um array de objetos de categorias de custom post types
+     * @see  presentCategory()
+     * @return [type] [description]
+     */
+    public function getTerms()
+    {
+
+    }
+
+    /**
+     * Retorna um array com as categorias do conteúdo de um tipo de taxonomia
+     * @param  string $taxonomy 
+     * @return array 
+     */
+    public function getCategoriesType($taxonomy = '')
+    {
+        $categories = wp_get_post_terms($this->ID, $taxonomy);
+        $cats = array();
+        foreach ($categories as $c)
+        {
+            $c->permalink = get_term_link($c, $c->taxonomy);
+            $cats[] = $c;
+        }
         return $cats;
     }
 
