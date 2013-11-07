@@ -121,7 +121,7 @@ class Wcategory {
         $cats = array();
         foreach ($categories as $c)
         {
-            $c->permalink = get_category_link($c->term_id);
+            $c->permalink = get_term_link( $c, $this->args['taxonomy'] );
             $cats[] = $c;
         }
 
