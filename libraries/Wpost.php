@@ -348,13 +348,15 @@ class Wpost {
     public function presentChildren()
     {
 
-        $all_wp_pages = new WP_Query(array(
-            'post_type' => 'page',
-            'post_parent' => $this->ID,
-            'post_status' => 'publish',
-            'orderby' => 'menu_order',
-            'order' => 'ASC'
-                )
+        $all_wp_pages = new WP_Query(
+            array(
+                'post_type' => 'page',
+                'post_parent' => $this->ID,
+                'post_status' => 'publish',
+                'orderby' => 'menu_order',
+                'order' => 'ASC',
+                'posts_per_page' => -1
+            )
         );
 
         if (count($all_wp_pages->posts) > 0)
