@@ -33,7 +33,7 @@ class Wpost {
      */
     protected $toArray = array('Time', 'Date', 'DateUrl', 'Title', 'Slug', 'Permalink', 'Thumb');
 
-    public function __construct($thePost = null)
+    public function __construct($thePost = null, $mainQuery = true)
     {
         global $post;
 
@@ -62,7 +62,10 @@ class Wpost {
         current post context. It does not assign the global $post variable, but seems to expect 
         that its argument is a reference to it.
          */
-        setup_postdata( $this->object );
+        if($mainQuery)
+        {
+            setup_postdata( $this->object );
+        }
     }
 
     /**
@@ -359,7 +362,7 @@ class Wpost {
             $posts = array();
             foreach ($all_wp_pages->posts as $p)
             {
-                $posts[] = new self($p);
+                $posts[] = new self($p, false);
             }
             return $posts;
         }
