@@ -73,8 +73,10 @@ $assets = new Wassets();
 // scripts padrão
 $assets->add('bootstrap', 'bootstrap.css');
 $assets->add('bootstrap-responsive', 'bootstrap-responsive.css', 'bootstrap');
-$assets->add('base-layout', 'base-layout.css', 'bootstrap');
-$assets->add('module-template', 'module-template.css', 'base-layout');
+$assets->add('base', 'base.css', 'bootstrap');
+$assets->add('layout', 'layout.css', 'base');
+$assets->add('modules', 'modules.css', 'layout');
+$assets->add('templates', 'templates.css', 'modules');
 
 $assets->add('jquery', 'jquery-1.8.3.min.js');
 $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
