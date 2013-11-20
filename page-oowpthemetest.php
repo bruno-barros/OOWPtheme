@@ -85,11 +85,8 @@ echo "título da filha [0]: {$myPage->children[0]->title} <br>";
  */
 echo '<br><br>';
 d('EXEMPLO DE MODEL PERSONALIZADO');
-$exemplo = new MyPersonalPostType();
+$exemplo = new PosttypeCollection();
 echo 'Total: ' . $exemplo->count() .'<br>';
-$oneExample = new Wpost($exemplo->posts[0]);
-echo "title: {$oneExample->title} <br>";
-echo "permalink: {$oneExample->permalink} <br>";
 
 
 /** ========================================================================
@@ -111,6 +108,11 @@ $tmpl->assign(array(
 	'email' => 'maria@email',
 ));
 echo $tmpl->fetch("email/contato.html");
+
+
+d('OPÇÕES DE TEMA');
+echo opt('example_text_mini', 'Opção não existe');
+
 ?>
 </body>
 </html>
