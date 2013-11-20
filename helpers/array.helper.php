@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helpers para manipulação de arrays
  * 
