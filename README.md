@@ -2,7 +2,7 @@ OOWPtheme
 =========
 
 Template básico que serve de ponto de partida. TwiterBootstrap, classes para manipulação de posts, páginas e imagens. Exemplos de códigos úteis e testes unitários com PHPunit.
-Um framework para gerenciamento de opções de tema foi incorporado _[veja abaixo](#themeframework)_.
+Um framework para gerenciamento de opções de tema foi incorporado _[veja abaixo](#framework-para-op%C3%A7%C3%B5es-de-tema)_.
 
 Bibliotecas básicas
 --------------------
@@ -192,8 +192,8 @@ No template:
 ----------------------------------------------------------
 [Veja o projeto original](https://github.com/devinsays/options-framework-theme)
 
-Para criar campos personalizados na administração, crie os campos necessários em *config/theme-options.php*.
-Exemplos de vários tipos de campos estão em *config/theme-options-example.php*.
+Para criar campos personalizados na administração, crie os campos necessários em `config/theme-options.php`.
+Exemplos de vários tipos de campos estão em `config/theme-options-example.php`.
 Por padrão o link é "Opções do site" e está disponível em "Aparência", mas pode ser alterado.
 
 Campos disponíveis:
