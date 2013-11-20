@@ -163,12 +163,27 @@ require templates_folder('comments/list-callback.php');
 require templates_folder('entry-meta.php');
 require templates_folder('content-nav.php');
 
-/** ========================================================================
- * 	ADMIN
- * 	Alterações no painel de administração
+
+/** 
+ * ========================================================================
+ *  ADMIN. Configurações da administração.
  * ------------------------------------------------------------------------
  */
-require config_folder('admin-config.php');
+if(is_admin())
+{
+  //Alterações no painel de administração
+  require config_folder('admin-config.php');
+
+  // Opções para site na administração
+  require config_folder('theme-options.php');
+
+  // Carregando framework de opções de tema
+  define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/config/theme-options/' );
+  require_once config_folder('theme-options/options-framework.php');
+  
+}
+
+
 
 /**     
  * Configuração de FTP que deve ser colocado em wp-config.php
