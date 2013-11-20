@@ -1,7 +1,8 @@
 OOWPtheme
 =========
 
-Template básico que serve de ponto de partida. TwiterBootstrap,  classes para manipulação de posts, páginas e imagens. Exemplos de códigos úteis e testes unitários com PHPunit.
+Template básico que serve de ponto de partida. TwiterBootstrap, classes para manipulação de posts, páginas e imagens. Exemplos de códigos úteis e testes unitários com PHPunit.
+Um framework para gerenciamento de opções de tema foi incorporado _[veja abaixo](#themeframework)_.
 
 Bibliotecas básicas
 --------------------
@@ -11,6 +12,7 @@ Bibliotecas básicas
 - helpers/str.helper.php
 - helpers/uri.helper.php
 - helpers/template.helper.php
+- helpers/theme.helper.php
 
 ### Libraries
 - libraries/Wassets.php // gerenciamento de JS e CSS
@@ -19,6 +21,7 @@ Bibliotecas básicas
 - libraries/Wmenu.php // manipulação de menus
 - libraries/Wpost.php // manipulação de posts e páginas
 - libraries/Wtmpl.php // gerenciamento de templates para pequenas partes
+- libraries/Wcategory.php // manipulação de categorias
 
 Plugins
 -------
@@ -184,3 +187,36 @@ No template:
 	} else {
 		// Não existem depoimentos.
 	}
+
+<a href="themeframework"></a>Framework para opções de tema
+----------------------------------------------------------
+[Veja o projeto original](https://github.com/devinsays/options-framework-theme)
+
+Para criar campos personalizados na administração, crie os campos necessários em *config/theme-options.php*.
+Exemplos de vários tipos de campos estão em *config/theme-options-example.php*.
+Por padrão o link é "Opções do site" e está disponível em "Aparência", mas pode ser alterado.
+
+Campos disponíveis:
+
+	- heading: cria uma aba de opções
+	- text
+	- textarea
+	- select 
+	- radio
+	- checkbox
+	- multicheck
+	- color: plugin colorpicker
+	- upload: upload de imagem
+	- images: usa imagens ao invés de radio
+	- background: opções para definir imagem de fundo
+	- typography: opções para tipografia
+	- editor: campo de conteúdo como em posts
+	- info: apenas campo de texto informativo
+
+Para usar as configurações no tema use:
+
+	// opt('ID do campo', [Valor padrão]);
+
+	if( opt('telefone') ):
+		echo "Ligue para " . opt('telefone');
+	endif;
