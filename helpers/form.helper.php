@@ -320,6 +320,21 @@ if (!function_exists('form_error'))
 }
 
 
+if (!function_exists('err_class'))
+{
+
+    function err_class($field = '')
+    {
+        if (isset($_SESSION['oowpvalidationerrors'][$field]))
+        {
+            return 'invalid';
+        }
+        return '';
+    }
+
+}
+
+
 if (!function_exists('_attributes_to_string'))
 {
 
