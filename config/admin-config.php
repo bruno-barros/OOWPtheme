@@ -43,3 +43,19 @@ function oowptheme_custom_admin_footer() {
 
 // adding it to the admin area
 add_filter('admin_footer_text', 'oowptheme_custom_admin_footer');
+
+
+/** ========================================================================
+ * 	Remove itens de menu
+ * ------------------------------------------------------------------------
+ */
+function oowptheme_remove_menus () {
+	global $menu;
+	$restricted = array(__('Dashboard'), __('Posts'), __('Media'), __('Links'), __('Pages'), __('Appearance'), __('Tools'), __('Users'), __('Settings'), __('Comments'), __('Plugins'));
+	end ($menu);
+	while (prev($menu)){
+		$value = explode(' ',$menu[key($menu)][0]);
+		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
+	}
+}
+// add_action('admin_menu', 'oowptheme_remove_menus');
