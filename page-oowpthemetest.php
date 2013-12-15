@@ -11,6 +11,9 @@
  * 	@package OOWPtheme
  * 	@subpackage test
  */
+
+
+
 /** ========================================================================
  * 	Classe para manipulação de páginas
  * ------------------------------------------------------------------------
@@ -111,7 +114,7 @@ echo $tmpl->fetch("email/contato.html");
 
 
 d('OPÇÕES DE TEMA');
-echo opt('example_text_mini', 'Opção não existe');
+echo '"example_editor:" ' . opt('example_editor', 'Opção não existe');
 
 ?>
 </body>
