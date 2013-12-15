@@ -53,6 +53,12 @@ class Wpost {
         {
             $this->object = $post;
         }
+
+        // se não existir conteúdo... retorna :-(
+        if($this->object === null)
+        {
+            return null;            
+        }
         
         /*
         @link https://codex.wordpress.org/Function_Reference/setup_postdata
@@ -270,7 +276,7 @@ class Wpost {
     public function presentCategory()
     {        
         // posts regulares 
-        if($this->object->post_type === 'post' || $this->object->post_type === 'page')
+        if($this->object && ($this->object->post_type === 'post' || $this->object->post_type === 'page') )
         {
             $categories = $this->getRegularCategories();
         }
