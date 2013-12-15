@@ -30,6 +30,7 @@
 <?php 
 
 //var_dump(get_template_directory_uri());
+
 ?>
 
 <header id="header" class="row">
@@ -48,6 +49,8 @@
 				 */
 				io('menuPrincipal')->render();
 				?>
+
+				<p><?php echo bbec_current_edition('name')?></p>
 			</div>
 
 		</div><!-- row -->

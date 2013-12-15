@@ -7,6 +7,7 @@
  * @since Twenty Twelve 1.0
  */
 $p = new Wpost();
+
 ?>
 
 	<article id="post-<?php echo $p->ID; ?>" <?php post_class(); ?>>
