@@ -174,6 +174,9 @@ if(is_admin())
   //Alterações no painel de administração
   require config_folder('admin-config.php');
 
+  // Plugins necessários
+  require plugins_folder('plugin-activation.php');
+
   // Opções para site na administração
   require config_folder('theme-options.php');
 
