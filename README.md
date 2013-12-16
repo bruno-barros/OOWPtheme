@@ -25,7 +25,13 @@ Bibliotecas básicas
 
 Plugins
 -------
-Wrapper para plugins com modificações no seu funcionamento normal.
+Classe para embutir plugins necessários ao tema, ou recomendados.
+
+### Gerenciando plugins do tema
+* Vá em `plugins/plugin-activation.php`
+* Adicione seus plugins no array `$plugins = array()`
+
+Wrapper para plugins com modificações no seu funcionamento normal. 
 
 - plugins/Bannerize.php
 
