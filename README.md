@@ -33,7 +33,7 @@ Classe para embutir plugins necessários ao tema, ou recomendados.
 
 Wrapper para plugins com modificações no seu funcionamento normal. 
 
-- plugins/Bannerize.php
+- plugins/Bannerize.php [WP Bannerize](http://wordpress.org/plugins/wp-bannerize/)
 
 
 Exemplos
