@@ -231,3 +231,20 @@ if (!function_exists('core_folder'))
     }
 
 }
+
+if (!function_exists('plugins_folder'))
+{
+
+    /**
+     * caminho absoluto para a pasta de plugins
+     * @param type $img
+     * @return string
+     */
+    function plugins_folder($script = '')
+    {
+        $filename = TEMPLATEPATH . '/plugins/' . trim($script, '/');
+
+        return $filename;
+    }
+
+}
