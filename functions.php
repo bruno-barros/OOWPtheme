@@ -78,7 +78,7 @@ $assets->add('layout', 'layout.css', 'base');
 $assets->add('modules', 'modules.css', 'layout');
 $assets->add('templates', 'templates.css', 'modules');
 
-$assets->add('jquery', 'jquery-1.10.2.min.js');
+wp_enqueue_script('jquery');
 $assets->add('bootstrap-js', 'bootstrap.min.js', 'jquery');
 
 /** ========================================================================
