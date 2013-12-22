@@ -1,0 +1,146 @@
+# Translation of Development (trunk) in Portuguese (Brazil)
+# This file is distributed under the same license as the Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-12-22 17:21-0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.3\n"
+"Project-Id-Version: OOWPTheme\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+
+###########################
+# theme options framework #
+###########################
+#: config/theme-options/includes/class-options-framework-admin.php:85
+#: config/theme-options/includes/class-options-framework-admin.php:305
+msgid "Theme Options"
+msgstr "Opções do tema"
+
+#: config/theme-options/includes/class-options-framework-admin.php:171
+msgid "Save Options"
+msgstr "Salvar opções"
+
+#: config/theme-options/includes/class-options-framework-admin.php:172
+msgid "Restore Defaults"
+msgstr "Restaurar padrões"
+
+#: config/theme-options/includes/class-options-framework-admin.php:172
+msgid "Click OK to reset. Any theme settings will be lost!"
+msgstr "Click OK para reiniciar. Todas as configurações serão perdidas."
+
+#: config/theme-options/includes/class-options-framework-admin.php:203
+msgid "Default options restored."
+msgstr "Opções padrão restauradas."
+
+#: config/theme-options/includes/class-options-framework-admin.php:257
+msgid "Options saved."
+msgstr "Opções salvas."
+
+#: config/theme-options/includes/class-options-media-uploader.php:63
+msgid "No file chosen"
+msgstr "Nenhum arquivo escolhido"
+
+#: config/theme-options/includes/class-options-media-uploader.php:66
+#: config/theme-options/includes/class-options-media-uploader.php:119
+msgid "Upload"
+msgstr "Upload"
+
+#: config/theme-options/includes/class-options-media-uploader.php:68
+#: config/theme-options/includes/class-options-media-uploader.php:120
+msgid "Remove"
+msgstr "Remover"
+
+#: config/theme-options/includes/class-options-media-uploader.php:71
+msgid "Upgrade your version of WordPress for full media support."
+msgstr "Atualize seu Wordpress para suporte à mídias."
+
+#: config/theme-options/includes/class-options-media-uploader.php:95
+msgid "View File"
+msgstr "Ver arquivo"
+
+#: config/theme-options/includes/class-options-sanitization.php:241
+msgid "No Repeat"
+msgstr "Não repitir"
+
+#: config/theme-options/includes/class-options-sanitization.php:242
+msgid "Repeat Horizontally"
+msgstr "Repetir horizontalmente"
+
+#: config/theme-options/includes/class-options-sanitization.php:243
+msgid "Repeat Vertically"
+msgstr "Repetir verticalmente"
+
+#: config/theme-options/includes/class-options-sanitization.php:244
+msgid "Repeat All"
+msgstr "Repetir tudo"
+
+#: config/theme-options/includes/class-options-sanitization.php:257
+msgid "Top Left"
+msgstr "topo esquerdo"
+
+#: config/theme-options/includes/class-options-sanitization.php:258
+msgid "Top Center"
+msgstr "topo centro"
+
+#: config/theme-options/includes/class-options-sanitization.php:259
+msgid "Top Right"
+msgstr "topo direito"
+
+#: config/theme-options/includes/class-options-sanitization.php:260
+msgid "Middle Left"
+msgstr "meio esquerdo"
+
+#: config/theme-options/includes/class-options-sanitization.php:261
+msgid "Middle Center"
+msgstr "meio centro"
+
+#: config/theme-options/includes/class-options-sanitization.php:262
+msgid "Middle Right"
+msgstr "meio direito"
+
+#: config/theme-options/includes/class-options-sanitization.php:263
+msgid "Bottom Left"
+msgstr "a baixo esquerdo"
+
+#: config/theme-options/includes/class-options-sanitization.php:264
+msgid "Bottom Center"
+msgstr "a baixo centro"
+
+#: config/theme-options/includes/class-options-sanitization.php:265
+msgid "Bottom Right"
+msgstr "a baixo direito"
+
+#: config/theme-options/includes/class-options-sanitization.php:278
+msgid "Scroll Normally"
+msgstr "Rolar normalmente"
+
+#: config/theme-options/includes/class-options-sanitization.php:279
+msgid "Fixed in Place"
+msgstr "Fixo no lugar"
+
+#: config/theme-options/includes/class-options-sanitization.php:353
+msgid "Normal"
+msgstr "Normal"
+
+#: config/theme-options/includes/class-options-sanitization.php:354
+msgid "Italic"
+msgstr "Itálico"
+
+#: config/theme-options/includes/class-options-sanitization.php:355
+msgid "Bold"
+msgstr "Negrito"
+
+#: config/theme-options/includes/class-options-sanitization.php:356
+msgid "Bold Italic"
+msgstr "Negrito itálico"
+
+
+################################
+# and/ theme options framework #
+################################
