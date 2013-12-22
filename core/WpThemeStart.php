@@ -44,6 +44,16 @@ function __autoload($class_name)
     }
 }
 
+/** ========================================================================
+ *     Internacionalização
+ *     Text domain: oowptheme
+ * ------------------------------------------------------------------------
+ */
+add_action('after_setup_theme', 'oowptheme_language_setup');
+function oowptheme_language_setup(){
+    load_theme_textdomain('oowptheme', get_template_directory() . '/languages');
+}
+
 /**
  * =========================================================================
  * Auto-Loader Helpers
