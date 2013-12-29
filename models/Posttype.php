@@ -10,6 +10,19 @@
  */
 class Posttype extends Wpost {
 
+    /**
+     * Taxonomia para categoria
+     * category (default), false
+     * @var string
+     */
+    protected $categoryTax = 'category';
+
+    /**
+     * Taxonomia para tags
+     * post_tag (default), false
+     * @var string
+     */
+    protected $tagTax = 'post_tag';
 
     public function __construct($post = null)
     {
