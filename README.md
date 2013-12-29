@@ -21,6 +21,7 @@ Bibliotecas básicas
 - libraries/Wmenu.php // manipulação de menus
 - libraries/Wpost.php // manipulação de posts e páginas
 - libraries/Wtmpl.php // gerenciamento de templates para pequenas partes
+- libraries/Wcategories.php // manipulação de coleções de categorias
 - libraries/Wcategory.php // manipulação de categorias
 
 Plugins
