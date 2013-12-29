@@ -25,7 +25,25 @@
  */
 class Wpost {
 
+    /**
+     * Objeto principal "post"
+     * @var WP_Post
+     */
     protected $object;
+
+    /**
+     * Taxonomia para categoria
+     * category (default), false
+     * @var string
+     */
+    protected $categoryTax = 'category';
+
+    /**
+     * Taxonomia para tags
+     * post_tag (default), false
+     * @var string
+     */
+    protected $tagTax = 'post_tag';
 
     /**
      * Métodos do tipo presenter que serão retornados no ->toArray()
@@ -52,12 +70,6 @@ class Wpost {
         else
         {
             $this->object = $post;
-        }
-
-        // se não existir conteúdo... retorna :-(
-        if($this->object === null)
-        {
-            return null;            
         }
         
         /*
@@ -274,20 +286,58 @@ class Wpost {
      * @return array
      */
     public function presentCategory()
-    {        
-        // posts regulares 
-        if($this->object && ($this->object->post_type === 'post' || $this->object->post_type === 'page') )
-        {
-            $categories = $this->getRegularCategories();
-        }
-        // é custom post type
-        else 
-        {
-            $categories = $this->getTerms();
-        }
+    {
+        $categories = $this->getRegularCategories();
 
         return $categories;
-        
+    }
+
+    /**
+     * Retorna array de objetos
+     * stdClass Object {
+     *  ["term_id"]=> 227
+     *  ["name"]=> "Opiniões"
+     *  ["slug"]=> "opinioes"
+     *  ["term_group"]=> 0
+     *  ["term_taxonomy_id"]=> 230
+     *  ["taxonomy"]=> "noticias_categoria"
+     *  ["description"]=> ""
+     *  ["parent"]=> 225
+     *  ["count"]=> 1
+     *  ["filter"]=> "raw"
+     *  ["permalink"]=>  "http://localhost/educacaopublica.rj.gov.br/trunk/noticias_categoria/opinioes"
+     *}
+     *
+     * 
+     * @param  string $taxName
+     * @return array
+     */
+    public function taxonomy($taxName = '')
+    {
+        // taxonomia padrão "category", mas pode sobreecrever
+        $thisTax = ($taxName !== '') ? $taxName : $this->categoryTax;
+
+        $taxonomy = wp_get_object_terms($this->ID, $thisTax);
+        $tax = null;
+        if($taxonomy)
+        {
+            $tax = array();
+            foreach ($taxonomy as $t)
+            {
+                $t->permalink = get_term_link($t->slug, $thisTax);
+                $tax[] = $t;
+            }
+        }
+        return $tax;
+    }
+
+    /**
+     * Presenter para retornar a taxonomia padrão
+     * @return array
+     */
+    public function presentTaxonomy()
+    {
+        return $this->taxonomy();
     }
 
     /**
@@ -327,7 +377,7 @@ class Wpost {
      */
     public function getTerms()
     {
-
+        
     }
 
     /**
