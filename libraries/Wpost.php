@@ -182,6 +182,32 @@ class Wpost {
     {
         return get_month_link(get_the_time('Y', $this->ID), get_the_time('m', $this->ID));
     }
+    
+    /**
+     * Há quantos dias foi publicado
+     */
+    public function presentPublishedDays()
+    {
+        return $this->publishedDays();
+    }
+    
+    /**
+	 * Há quantos dias o post foi publicado
+	 * @return int
+	 */
+	public function publishedDays()
+	{
+		$todaysDate = time();
+		$postDate = strtotime($this->post_date); 
+
+		$diff = abs($todaysDate - $postDate); 
+
+		$years   = floor($diff / (365*60*60*24)); 
+		$months  = floor(($diff - $years * 365*60*60*24) / (30*60*60*24)); 
+		$days    = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+		
+		return  (int)$days;
+	}
 
     /**
      * Retorna o título
