@@ -62,17 +62,26 @@ if (!function_exists('uri_ends'))
 if (!function_exists('is_subpage'))
 {
 
-    function is_subpage()
+    function is_subpage($pageSlug = '')
     {
-        global $post; // load details about this page
-
-        if (is_page() && $post->post_parent)
-        {   // test to see if the page has a parent
-            return $post->post_parent; // return the ID of the parent post
+        global $post;
+        
+        // test to see if the page has a parent
+        if ( is_page() && $post->post_parent )
+        {   
+            if($pageSlug !== '')
+            {
+                $parent = new WP_Query(array('name' => $pageSlug, 'post_type' => 'page'));
+                return ($parent->post->ID === $post->post_parent) ? true : false;
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {   // there is no parent so ...
-            return false; // ... the answer to the question is false
+            return false;
         }
     }
 
