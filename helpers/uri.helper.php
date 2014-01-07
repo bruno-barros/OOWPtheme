@@ -61,7 +61,12 @@ if (!function_exists('uri_ends'))
 
 if (!function_exists('is_subpage'))
 {
-
+    /**
+     * Testa se a página é uma subpágina, ou se é subpágina de um slug específico
+     * 
+     * @param string $pageSlug Slug da página mãe
+     * @return boolean
+     */
     function is_subpage($pageSlug = '')
     {
         global $post;
