@@ -49,6 +49,7 @@ add_filter('admin_footer_text', 'oowptheme_custom_admin_footer');
  * 	Remove itens de menu
  * ------------------------------------------------------------------------
  */
+// add_action('admin_menu', 'oowptheme_remove_menus');
 function oowptheme_remove_menus () {
 	global $menu;
 	$restricted = array(__('Dashboard'), __('Posts'), __('Media'), __('Links'), __('Pages'), __('Appearance'), __('Tools'), __('Users'), __('Settings'), __('Comments'), __('Plugins'));
@@ -58,4 +59,15 @@ function oowptheme_remove_menus () {
 		if(in_array($value[0] != NULL?$value[0]:"" , $restricted)){unset($menu[key($menu)]);}
 	}
 }
-// add_action('admin_menu', 'oowptheme_remove_menus');
+
+
+
+/** ========================================================================
+ * 	Adiciona folha de estilo no editor tinymce
+ * ------------------------------------------------------------------------
+ */
+//add_action( 'init', 'oowptheme_add_editor_styles' );
+ function oowptheme_add_editor_styles() {
+    add_editor_style( 'assets/css/tinymce.css' );
+}
+
