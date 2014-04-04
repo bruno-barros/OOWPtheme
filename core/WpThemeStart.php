@@ -24,7 +24,9 @@ $autoLoadDirectories = array(
     'templates',
 );
 
-function __autoload($class_name)
+spl_autoload_register('oowptheme_autoload');
+
+function oowptheme_autoload($class_name)
 {
     global $autoLoadDirectories;
 
