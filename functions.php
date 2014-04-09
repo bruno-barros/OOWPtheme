@@ -138,7 +138,7 @@ add_action('pre_get_posts','oowptheme_special_filters');
  *     @link http://codex.wordpress.org/add_theme_support
  * ------------------------------------------------------------------------
  */
-require config_folder('post-thumbnail.php');
+require config_folder('theme-custom-hooks.php');
 
 /** ========================================================================
  *    Registra widgets e sidebars
