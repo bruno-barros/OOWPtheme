@@ -16,7 +16,8 @@ if(! function_exists('oowp_pagination'))
 		
 		// default options
 		$opt = array_merge(array(
-			'container_class' => 'pagination'
+			'container_class' => 'pagination-wrapper',
+			'ul_class' => 'pagination',
 		), $options);
 
 		//use the query for paging
@@ -45,6 +46,17 @@ if(! function_exists('oowp_pagination'))
             $pagination[ 'add_args' ] = array( 's' => get_query_var( 's' ) );        	
         }
 
-        return "<div class=\"{$opt['container_class']}\">" . paginate_links($pagination) . "</div>";
+        $aLinks = paginate_links($pagination);
+
+        if(! $aLinks)
+        {
+            return '';
+        }
+
+        $ul = "<ul class=\"{$opt['ul_class']}\">\n\t<li>";
+        $ul .= join("</li>\n\t<li>", $aLinks);
+        $ul .= "</li>\n</ul>\n";
+
+        return "<div class=\"{$opt['container_class']}\">{$ul}</div>";
 	}
 }
