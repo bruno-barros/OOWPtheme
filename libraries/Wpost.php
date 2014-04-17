@@ -44,6 +44,11 @@ class Wpost {
      * @var string
      */
     protected $tagTax = 'post_tag';
+    
+    /**
+     * @var boolean
+     */
+    protected $isMainQuery = true;
 
     /**
      * Métodos do tipo presenter que serão retornados no ->toArray()
@@ -54,6 +59,8 @@ class Wpost {
     public function __construct($thePost = null, $mainQuery = true)
     {
         global $post;
+        
+        $this->isMainQuery = $mainQuery;
 
         if (is_object($thePost))
         {
@@ -80,7 +87,7 @@ class Wpost {
         current post context. It does not assign the global $post variable, but seems to expect 
         that its argument is a reference to it.
          */
-        if($mainQuery)
+        if($this->isMainQuery)
         {
             setup_postdata( $this->object );
         }
@@ -90,7 +97,7 @@ class Wpost {
      * Pass any unknown varible calls to present{$variable} 
      * or fall through to the injected object.
      *
-     * @param  string $var
+     * @param  string $vare
      * @return mixed
      */
     public function __get($var)
@@ -242,7 +249,7 @@ class Wpost {
      */
     public function presentExcerpt()
     {
-        return get_the_excerpt();
+        return apply_filters('the_excerpt', get_post_field('post_excerpt', $this->ID));
     }
 
     /**
@@ -251,9 +258,14 @@ class Wpost {
      */
     public function presentContent()
     {
+        if($this->isMainQuery)
+        {
+            return get_the_content();
+        }
         // aplica filtros
-        $content = apply_filters('the_content', get_the_content());
+        $content = apply_filters('the_content', $this->post_content);
         $content = str_replace(']]>', ']]&gt;', $content);
+
         return $content;
     }
 
