@@ -115,6 +115,13 @@ class Wcategories {
 	public function __construct($options = array())
 	{
 		$this->args = array_merge($this->args, $options);
+
+        // duplicate 'type' of a category to 'post_type'
+        // to deep loop through posts of specials post_types
+        if ($this->args['type'] !== 'category')
+        {
+            $this->args['post_type'] = $this->args['type'];
+        }
 	}
 
 	/**
