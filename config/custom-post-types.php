@@ -82,6 +82,7 @@ function wptheme_taxonomie_EXAMPLE() {
         'labels' => $labels,
         'hierarchical' => true,
         'public' => true,
+        'show_admin_column'   => true,
         'rewrite' => array( 'slug' => 'catEXAMPLE' ),
     );
     register_taxonomy( 'categoria_example', 'example', $args );

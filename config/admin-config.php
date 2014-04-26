@@ -10,6 +10,47 @@
  */
 
 /** ========================================================================
+ * 	Altera o menu
+ * ------------------------------------------------------------------------
+ */
+function change_post_menu_label() {
+    global $menu;
+    global $submenu;
+    $menu[5][0] = 'Novidades';
+    $submenu['edit.php'][5][0] = 'Novidades';
+    $submenu['edit.php'][10][0] = 'Adicionar nova';
+    echo '';
+}
+function change_post_object_label() {
+    global $wp_post_types;
+    $labels = &$wp_post_types['post']->labels;
+    $labels->name = 'Novidade';
+    $labels->singular_name = 'Novidade';
+    $labels->add_new = 'Adicionar nova';
+    $labels->add_new_item = 'Adicionar nova';
+    $labels->edit_item = 'Editar conteúdo';
+    $labels->new_item = 'Novidade';
+    $labels->view_item = 'Ver conteúdo';
+    $labels->search_items = 'Pesquisar conteúdo';
+    $labels->not_found = 'Nenhum conteúdo encontrado';
+    $labels->not_found_in_trash = 'Nenhum conteúdo encontrado na lixeira';
+}
+//add_action( 'init', 'change_post_object_label' );
+//add_action( 'admin_menu', 'change_post_menu_label' );
+
+
+/**
+ * ---------------------------------
+ *  adds excerpt to pages
+ * --------------------------------
+ */
+add_action('init', 'oowp_add_excerpts_to_pages');
+function oowp_add_excerpts_to_pages()
+{
+    add_post_type_support('page', 'excerpt');
+}
+
+/** ========================================================================
  * 	Desativação de alguns boxes no painel principal
  * ------------------------------------------------------------------------
  */
