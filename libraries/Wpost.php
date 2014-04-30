@@ -303,7 +303,7 @@ class Wpost {
             return false;
         }
         $parent = get_post($this->post_parent);
-        return new self($parent);
+        return new self($parent, false);
     }
 
     /**
