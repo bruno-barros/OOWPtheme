@@ -33,7 +33,7 @@ if(! function_exists('oowp_pagination'))
             'mid_size' => 4,
             'total' => $wp_query->max_num_pages,
             'current' => $current,
-            'type' => 'list'
+            'type' => 'array'
         );
 
         //build the paging links
