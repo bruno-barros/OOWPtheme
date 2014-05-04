@@ -229,6 +229,7 @@ class Wmail {
         $tmpl = new Wtmpl();
         // insere as variáveis no template
         $tmpl->assign($this->templateVars);
+        $tmpl->assign('theme_url', get_template_directory_uri());
 
         // renderiza template
         if (file_exists($template))
