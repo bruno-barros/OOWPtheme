@@ -9,27 +9,27 @@ get_header();
 ?>
 
     <h2 class="title-tab">
-
         <?php
-        if($wp_query->query['post_type'] == 'post')
+        $obj = get_post_type_object( $wp_query->query['post_type'] );
+        if($obj)
+        {
+            echo $obj->labels->name;
+        }
+        else
         {
             echo 'Novidades';
-        }
-        else{
-
-            $obj = get_post_type_object( $wp_query->query['post_type'] );
-            echo $obj->labels->name;
         }
         ?>
     </h2>
 
 
-    <div class="content content-pad">
+    <div class="content -content-pad">
 
 
         <div class="row-fluid">
 
 
+            <div class="span9">
 
 
                 <?php
@@ -40,7 +40,7 @@ get_header();
 
                         $p = new Novidade();
 
-                        get_template_part('content', 'box');
+                        get_template_part('content', 'post');
 
                         if ($i == 3)
                         {
@@ -62,13 +62,31 @@ get_header();
                 <?php
                 endif; // end have_posts() check
                 ?>
+            </div>
+
+            <div class="span3">
 
 
+                <?php
+                $obj = get_post_type_object( $wp_query->query['post_type'] );
+                if(isset($wp_query->query['post_type']))
+                {
+                    get_template_part('sidebar', $wp_query->query['post_type']);
+                }
+                else
+                {
+                    get_template_part('sidebar', 'novidades');
+                }
+                ?>
+
+
+
+            </div>
 
 
         </div>
 
-        <?php echo oowp_pagination();?>
+        <?php echo oowp_pagination(); ?>
 
     </div>
 

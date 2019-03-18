@@ -13,22 +13,22 @@ return array(
     /**
      * Dados de autenticação
      */
-    'smtpHost' => '',
-    'username' => 'user',
-    'password' => 'pass',
-    'smtpSecure' => 'tls',
+    'smtpHost' => 'smtp.omb.org.br',
+    'username' => 'autentica@omb.org.br',
+    'password' => 'autentica1omb',
+    'smtpSecure' => 'autentica@omb.org.br',
     'smtpPort' => 587,
     
     /**
      * Dados do destinatário
      */
-    'toEmail' => 'brunodanca@gmail.com',
-    'toName' => 'Bruno',
+    'toEmail' => 'omb@omb.org.br',
+    'toName' => 'OMB',
     /**
      * Dados do rementente
      */
-    'fromEmail' => 'brunodanca@gmail.com',
-    'fromName' => 'Site Bruno',
+    'fromEmail' => 'omb@omb.org.br',
+    'fromName' => 'OMB',
     'bccEmail' => '',
     
     /**

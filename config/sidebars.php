@@ -21,9 +21,9 @@ function wptheme_widgets_init()
     ));
 
     register_sidebar(array(
-        'name' => 'Sidebar home',
+        'name' => 'Rodapé: Box facebook',
         'id' => 'sidebar-2',
-        'description' => 'Box para plugin social',
+        'description' => 'Plugin social',
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
         'before_title' => '<h3 class="widget-title">',

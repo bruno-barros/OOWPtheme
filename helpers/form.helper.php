@@ -118,7 +118,7 @@ if (!function_exists('form_open'))
         // If no action is provided then set to the current url
         $action = get_permalink();
         $action .= '?a=sent';
-        $action .= '&p=' . get_permalink();
+        $action .= '&p=' . urlencode(get_permalink());
 
         $form = '<form action="' . $action . '"';
 

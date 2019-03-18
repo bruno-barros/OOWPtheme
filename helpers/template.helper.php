@@ -13,11 +13,13 @@ if(! function_exists('oowp_pagination'))
 	function oowp_pagination($options = array())
 	{
 		global $wp_query, $wp_rewrite;
-		
+
+
+
 		// default options
 		$opt = array_merge(array(
-			'container_class' => 'pagination-wrapper',
-			'ul_class' => 'pagination',
+			'container_class' => 'pagination pagination-centered',
+			'ul_class' => '-pagination',
 		), $options);
 
 		//use the query for paging
@@ -33,7 +35,7 @@ if(! function_exists('oowp_pagination'))
             'mid_size' => 4,
             'total' => $wp_query->max_num_pages,
             'current' => $current,
-            'type' => 'list'
+            'type' => 'array'
         );
 
         //build the paging links
@@ -46,7 +48,9 @@ if(! function_exists('oowp_pagination'))
             $pagination[ 'add_args' ] = array( 's' => get_query_var( 's' ) );        	
         }
 
+
         $aLinks = paginate_links($pagination);
+
 
         if(! $aLinks)
         {

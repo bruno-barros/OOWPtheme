@@ -151,9 +151,15 @@ class Wcategories {
 			return $this->items;
 		}
 
+
+
 		// faz consulta
-		$categories = get_categories( $this->args );
-		if (count($categories) == 0 || !$categories)
+//		$categories = get_categories( $this->args );
+
+
+        $categories = get_terms($this->args['taxonomy'],$this->args);
+
+        if (count($categories) == 0 || !$categories)
         {
             return false;
         }

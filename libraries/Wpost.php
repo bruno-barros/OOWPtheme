@@ -258,10 +258,10 @@ class Wpost {
      */
     public function presentContent()
     {
-        if($this->isMainQuery)
-        {
-            return get_the_content();
-        }
+//        if($this->isMainQuery)
+//        {
+//            return get_the_content();
+//        }
         // aplica filtros
         $content = apply_filters('the_content', $this->post_content);
         $content = str_replace(']]>', ']]&gt;', $content);
@@ -303,7 +303,7 @@ class Wpost {
             return false;
         }
         $parent = get_post($this->post_parent);
-        return new self($parent);
+        return new self($parent, false);
     }
 
     /**

@@ -42,11 +42,11 @@ class Wtmpl extends Template_Lite
      */
     public function checkCaheFolder()
     {
-        if(! is_dir(WP_CONTENT_DIR . "/cache/"))
+        if(! is_dir(WP_CONTENT_DIR . "/cache"))
         {
-            mkdir(WP_CONTENT_DIR . "/cache/", 0777);
+            mkdir(WP_CONTENT_DIR . "/cache", 0777);
         }
-        if(! is_dir(WP_CONTENT_DIR . "/cache/"))
+        if(! is_dir(WP_CONTENT_DIR . "/cache"))
         {
             throw new Exception('Pasta de cache não pôde se criada em wp-content/cache.');
         }

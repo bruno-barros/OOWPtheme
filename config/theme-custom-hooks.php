@@ -28,7 +28,7 @@ add_filter('use_default_gallery_style', '__return_false');
  * modify the gallery template
  * append and prepend html content
  */
-add_filter('post_gallery', 'my_post_gallery', 10, 2);
+//add_filter('post_gallery', 'my_post_gallery', 10, 2);
 function my_post_gallery($output, $attr)
 {
     //    global $post, $wp_locale;

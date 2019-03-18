@@ -27,6 +27,9 @@ function oowptheme_register_required_plugins() {
     $plugins = array(
 
         // This is an example of how to include a plugin pre-packaged with a theme
+        /*
+         *
+
         array(
             // The plugin name
             'name'                  => 'TGM Example Plugin', 
@@ -44,13 +47,56 @@ function oowptheme_register_required_plugins() {
             'force_deactivation'    => false,
             // If set, overrides default API URL and points to an external URL
             'external_url'          => '', 
-        ),
+        ), */
 
         // This is an example of how to include a plugin from the WordPress Plugin Repository
+//        array(
+//            'name'      => 'Query Monitor',
+//            'slug'      => 'query-monitor',
+//            'required'  => false,
+//        ),
         array(
-            'name'      => 'Query Monitor',
-            'slug'      => 'query-monitor',
+            'name'      => 'Advanced TinyMCE Configuration',
+            'slug'      => 'advanced-tinymce-configuration',
+            'required'  => true,
+        ),
+        array(
+            'name'     => 'Parent Category Toggler',
+            'slug'     => 'parent-category-toggler',
+            'required' => true,
+        ),
+
+        array(
+            'name'      => 'Post Snippets',
+            'slug'      => 'post-snippets',
             'required'  => false,
+        ),
+        array(
+            'name'      => 'Responsive Lightbox',
+            'slug'      => 'responsive-lightbox',
+            'required'  => false,
+        ),
+        array(
+            'name'      => 'Types - Custom Fields and Custom Post Types Management',
+            'slug'      => 'types',
+            'required'  => true,
+        ),
+        array(
+            'name'      => 'Meta Slider',
+            'slug'      => 'ml-slider',
+            'required'  => true,
+        ),
+        array(
+            'name'      => 'Featured Image Column',
+            'slug'      => 'featured-image-column',
+            'required'  => false,
+        ),
+        array(
+            'name' => 'Filterama',
+            'slug' => 'filterama',
+            'source' => plugins_folder('required/filterama.zip'),
+            'required' => true,
+            'force_activation' => true,
         ),
 
     );

@@ -1,6 +1,5 @@
 <?php 
 /**
- * Exemplo de model personalizado para um post
  * 
  * @package OOWPtheme
  * @subpackage models
@@ -8,7 +7,7 @@
  * @copyright   Copyright (c) 2013 Bruno Barros
  * 
  */
-class Posttype extends Wpost {
+class Novidade extends Wpost {
 
     /**
      * Taxonomia para categoria
@@ -24,8 +23,8 @@ class Posttype extends Wpost {
      */
     protected $tagTax = 'post_tag';
 
-    public function __construct($post = null)
+    public function __construct($post = null, $mainQuery = true)
     {
-        parent::__construct($post);
+        parent::__construct($post, $mainQuery);
     }
 }
