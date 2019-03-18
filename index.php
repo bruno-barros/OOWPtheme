@@ -11,7 +11,12 @@ get_header();
     <h2 class="title-tab">
 
         <?php
-        if($wp_query->query['post_type'] == 'post')
+        if(is_category())
+        {
+            $c = get_category(get_queried_object());
+            echo $c->name;
+        }
+        else if($wp_query->query['post_type'] == 'post')
         {
             echo 'Novidades';
         }
