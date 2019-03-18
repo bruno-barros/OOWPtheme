@@ -11,13 +11,12 @@
  * @subpackage config
  * @author Bruno Barros  <bruno@brunobarros.com>
  * @copyright   Copyright (c) 2013 Bruno Barros
- *
+ * 
  */
 
 /**
  * ================================================
- * ESCOLAS
- * ------------------------------------------------
+ * Modelo para novo Custom Post Type
  */
 add_action('init', 'wptheme_posttype_escolas', 0);
 function wptheme_posttype_escolas()
@@ -61,7 +60,6 @@ function wptheme_posttype_escolas()
 
     register_post_type('escolas', $args);
 }
-
 /**
  * Registra taxonomias exclusivas para este custom post type
  */
@@ -92,7 +90,6 @@ function wptheme_taxonomie_escolas()
     register_taxonomy('escolas_categoria', 'escolas', $args);
 
 }
-
 /**
  *     FIM do custom post type
  * ------------------------------------------------------------------------
